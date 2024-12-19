@@ -21,7 +21,7 @@ if (fs.existsSync(addonsPath)) {
   try {
     cp.execSync('yarn --version').toString();
     hasYarn = true;
-  } catch(e) {}
+  } catch (e) { }
 
   // walk all addon folders
   fs.readdir(addonsPath, (err, files) => {
@@ -36,18 +36,13 @@ if (fs.existsSync(addonsPath)) {
         // swallow as changing branches can leave folders around
       }
       if (packageJson
-            && (
-              (packageJson.devDependencies && Object.keys(packageJson.devDependencies).length)
-              || (packageJson.dependencies && Object.keys(packageJson.dependencies).length)
-            )
-          )
-      {
+        && (
+          (packageJson.devDependencies && Object.keys(packageJson.devDependencies).length)
+          || (packageJson.dependencies && Object.keys(packageJson.dependencies).length)
+        )
+      ) {
         console.log('Preparing', folder);
-        if (hasYarn) {
-          cp.execSync('yarn', {cwd: addonPath});
-        } else {
-          cp.execSync('npm install', {cwd: addonPath});
-        }
+        cp.execSync('npm install', { cwd: addonPath });
       } else {
         console.log('Skipped', folder);
       }

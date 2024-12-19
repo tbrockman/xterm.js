@@ -1,6 +1,7 @@
 {
   "files": [],
   "include": [],
+  "exclude": ["node_modules"],
   "references": [
     { "path": "./src/browser" },
     { "path": "./src/headless" },

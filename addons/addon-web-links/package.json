@@ -25,5 +25,4 @@
   "peerDependencies": {
     "@xterm/xterm": "^5.0.0"
   }
-
 }

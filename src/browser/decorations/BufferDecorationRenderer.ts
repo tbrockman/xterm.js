@@ -78,6 +78,9 @@ export class BufferDecorationRenderer extends Disposable {
     element.style.top = `${(decoration.marker.line - this._bufferService.buffers.active.ydisp) * this._renderService.dimensions.css.cell.height}px`;
     element.style.lineHeight = `${this._renderService.dimensions.css.cell.height}px`;
 
+    console.log('decoration', decoration)
+    console.log('decoration top', element.style.top, 'marker line', decoration.marker.line, 'ydisp', this._bufferService.buffers.active.ydisp, 'cell height', this._renderService.dimensions.css.cell.height);
+
     const x = decoration.options.x ?? 0;
     if (x && x > this._bufferService.cols) {
       // exceeded the container width, so hide
@@ -90,33 +93,34 @@ export class BufferDecorationRenderer extends Disposable {
 
   private _refreshStyle(decoration: IInternalDecoration): void {
     const line = decoration.marker.line - this._bufferService.buffers.active.ydisp;
-    if (line < 0 || line >= this._bufferService.rows) {
-      // outside of viewport
-      if (decoration.element) {
-        decoration.element.style.display = 'none';
-        decoration.onRenderEmitter.fire(decoration.element);
-      }
-    } else {
-      let element = this._decorationElements.get(decoration);
-      if (!element) {
-        element = this._createElement(decoration);
-        decoration.element = element;
-        this._decorationElements.set(decoration, element);
-        this._container.appendChild(element);
-        decoration.onDispose(() => {
-          this._decorationElements.delete(decoration);
-          element!.remove();
-        });
-      }
-      element.style.display = this._altBufferIsActive ? 'none' : 'block';
-      if (!this._altBufferIsActive) {
-        element.style.width = `${Math.round((decoration.options.width || 1) * this._renderService.dimensions.css.cell.width)}px`;
-        element.style.height = `${(decoration.options.height || 1) * this._renderService.dimensions.css.cell.height}px`;
-        element.style.top = `${line * this._renderService.dimensions.css.cell.height}px`;
-        element.style.lineHeight = `${this._renderService.dimensions.css.cell.height}px`;
-      }
-      decoration.onRenderEmitter.fire(element);
+
+    // if (line < 0 || line >= this._bufferService.rows) {
+    //   // outside of viewport
+    //   if (decoration.element) {
+    //     decoration.element.style.display = 'none';
+    //     decoration.onRenderEmitter.fire(decoration.element);
+    //   }
+    // } else {
+    let element = this._decorationElements.get(decoration);
+    if (!element) {
+      element = this._createElement(decoration);
+      decoration.element = element;
+      this._decorationElements.set(decoration, element);
+      this._container.appendChild(element);
+      decoration.onDispose(() => {
+        this._decorationElements.delete(decoration);
+        element!.remove();
+      });
     }
+    element.style.display = this._altBufferIsActive ? 'none' : 'block';
+    if (!this._altBufferIsActive) {
+      element.style.width = `${Math.round((decoration.options.width || 1) * this._renderService.dimensions.css.cell.width)}px`;
+      element.style.height = `${(decoration.options.height || 1) * this._renderService.dimensions.css.cell.height}px`;
+      element.style.top = `${line * this._renderService.dimensions.css.cell.height}px`;
+      element.style.lineHeight = `${this._renderService.dimensions.css.cell.height}px`;
+    }
+    decoration.onRenderEmitter.fire(element);
+    //}
   }
 
   private _refreshXPosition(decoration: IInternalDecoration, element: HTMLElement | undefined = decoration.element): void {

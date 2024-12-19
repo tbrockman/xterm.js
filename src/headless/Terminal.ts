@@ -44,6 +44,8 @@ export class Terminal extends CoreTerminal {
   ) {
     super(options);
 
+    console.log('console still logging, we just bad')
+
     this._setup();
 
     // Setup InputHandler listeners

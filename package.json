@@ -6,6 +6,7 @@
   "module": "lib/xterm.mjs",
   "style": "css/xterm.css",
   "types": "typings/xterm.d.ts",
+  "private": true,
   "repository": "https://github.com/xtermjs/xterm.js",
   "license": "MIT",
   "keywords": [
@@ -75,14 +76,14 @@
     "@types/express-ws": "^3.0.1",
     "@types/glob": "^7.2.0",
     "@types/jsdom": "^16.2.13",
-    "@types/mocha": "^9.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^18.16.0",
     "@types/trusted-types": "^1.0.6",
     "@types/utf8": "^3.0.0",
     "@types/webpack": "^5.28.0",
     "@types/ws": "^8.2.0",
-    "@typescript-eslint/eslint-plugin": "^6.2.00",
-    "@typescript-eslint/parser": "^6.2.00",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
     "chai": "^4.3.4",
     "cross-env": "^7.0.3",
     "deep-equal": "^2.0.5",
@@ -106,5 +107,8 @@
     "webpack-cli": "^4.9.1",
     "ws": "^8.2.3",
     "xterm-benchmark": "^0.3.1"
-  }
+  },
+  "workspaces": [
+    "addons/*"
+  ]
 }
