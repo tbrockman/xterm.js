@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { Terminal, ITerminalAddon } from '@xterm/xterm';
+import { Terminal, ITerminalAddon } from '@jsnix/xterm';
 
 declare module '@xterm/addon-fit' {
   /**

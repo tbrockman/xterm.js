@@ -5,7 +5,7 @@
  * (EXPERIMENTAL) This Addon is still under development
  */
 
-import type { IBuffer, IBufferCell, IBufferRange, ITerminalAddon, Terminal } from '@xterm/xterm';
+import type { IBuffer, IBufferCell, IBufferRange, ITerminalAddon, Terminal } from '@jsnix/xterm';
 import type { IHTMLSerializeOptions, SerializeAddon as ISerializeApi, ISerializeOptions, ISerializeRange } from '@xterm/addon-serialize';
 import { IAttributeData, IColor } from 'common/Types';
 import { DEFAULT_ANSI_COLORS } from 'browser/Types';
@@ -46,7 +46,7 @@ abstract class BaseSerializeHandler {
       const line = this._buffer.getLine(row);
       if (line) {
         const startLineColumn = row === range.start.y ? startColumn : 0;
-        const endLineColumn = row === range.end.y ? endColumn: line.length;
+        const endLineColumn = row === range.end.y ? endColumn : line.length;
         for (let col = startLineColumn; col < endLineColumn; col++) {
           const c = line.getCell(col, oldCell === cell1 ? cell2 : cell1);
           if (!c) {
@@ -422,7 +422,7 @@ class StringSerializeHandler extends BaseSerializeHandler {
   }
 }
 
-export class SerializeAddon implements ITerminalAddon , ISerializeApi {
+export class SerializeAddon implements ITerminalAddon, ISerializeApi {
   private _terminal: Terminal | undefined;
 
   public activate(terminal: Terminal): void {
@@ -441,8 +441,8 @@ export class SerializeAddon implements ITerminalAddon , ISerializeApi {
   private _serializeBufferByRange(terminal: Terminal, buffer: IBuffer, range: ISerializeRange, excludeFinalCursorPosition: boolean): string {
     const handler = new StringSerializeHandler(buffer, terminal);
     return handler.serialize({
-      start: { x: 0,             y: typeof range.start === 'number' ? range.start : range.start.line },
-      end:   { x: terminal.cols, y: typeof range.end   === 'number' ? range.end   : range.end.line   }
+      start: { x: 0, y: typeof range.start === 'number' ? range.start : range.start.line },
+      end: { x: terminal.cols, y: typeof range.end === 'number' ? range.end : range.end.line }
     }, excludeFinalCursorPosition);
   }
 
@@ -455,8 +455,8 @@ export class SerializeAddon implements ITerminalAddon , ISerializeApi {
       const scrollback = options.scrollback;
       const correctRows = (scrollback === undefined) ? maxRows : constrain(scrollback + terminal.rows, 0, maxRows);
       return handler.serialize({
-        start: { x: 0,             y: maxRows - correctRows },
-        end:   { x: terminal.cols, y: maxRows - 1           }
+        start: { x: 0, y: maxRows - correctRows },
+        end: { x: terminal.cols, y: maxRows - 1 }
       });
     }
 
@@ -464,7 +464,7 @@ export class SerializeAddon implements ITerminalAddon , ISerializeApi {
     if (selection !== undefined) {
       return handler.serialize({
         start: { x: selection.start.x, y: selection.start.y },
-        end:   { x: selection.end.x,   y: selection.end.y   }
+        end: { x: selection.end.x, y: selection.end.y }
       });
     }
 
@@ -608,8 +608,8 @@ export class HTMLSerializeHandler extends BaseSerializeHandler {
     if (isFg ? cell.isFgRGB() : cell.isBgRGB()) {
       const rgb = [
         (color >> 16) & 255,
-        (color >>  8) & 255,
-        (color      ) & 255
+        (color >> 8) & 255,
+        (color) & 255
       ];
       return '#' + rgb.map(x => this._padStart(x.toString(16), 2, '0')).join('');
     }

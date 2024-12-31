@@ -5,7 +5,7 @@
 
 import { IImage32, decodePng } from '@lunapaint/png-codec';
 import { LocatorScreenshotOptions, test } from '@playwright/test';
-import { ITheme } from '@xterm/xterm';
+import { ITheme } from '@jsnix/xterm';
 import { ITestContext, MaybeAsync, openTerminal, pollFor, pollForApproximate } from './TestUtils';
 
 export interface ISharedRendererTestContext {
@@ -547,7 +547,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
     }
   });
 
-  test('foreground true color red inverse', async function(): Promise<void> {
+  test('foreground true color red inverse', async function (): Promise<void> {
     let data = '';
     for (let y = 0; y < 16; y++) {
       for (let x = 0; x < 16; x++) {
@@ -565,7 +565,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
     }
   });
 
-  test('background true color red inverse', async function(): Promise<void> {
+  test('background true color red inverse', async function (): Promise<void> {
     let data = '';
     for (let y = 0; y < 16; y++) {
       for (let x = 0; x < 16; x++) {
@@ -942,7 +942,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         selectionBackground: '#0000FF'
       };
       await ctx.value.page.evaluate(`window.term.options.theme = ${JSON.stringify(theme)};`);
-      await ctx.value.proxy.write( ` ■\x1b[7m■\x1b[0m`);
+      await ctx.value.proxy.write(` ■\x1b[7m■\x1b[0m`);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [0, 255, 0, 255]);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 2, 1), [255, 0, 0, 255]);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 3, 1), [0, 255, 0, 255]);
@@ -1013,7 +1013,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
       await ctx.value.proxy.writeln('\x1b[31;42;7m\u{E0B4} red fg green bg inverse\x1b[0m');
       await ctx.value.proxy.writeln('\x1b[32;41;7m\u{E0B4} green fg red bg inverse\x1b[0m');
       await ctx.value.proxy.selectAll();
-      await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255,255,255,255]);
+      await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 255, 255, 255]);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 2), [230, 128, 128, 255]);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 3), [128, 230, 128, 255]);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 4), [128, 230, 128, 255]);
@@ -1030,7 +1030,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
       };
       await ctx.value.page.evaluate(`window.term.options.theme = ${JSON.stringify(theme)};`);
       const data = `\x1b[7m■\x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       // Inverse background should be opaque
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 0, 0, 255]);
     });
@@ -1043,7 +1043,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
       };
       await ctx.value.page.evaluate(`window.term.options.theme = ${JSON.stringify(theme)};`);
       const data = `\x1b[7m■\x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await ctx.value.proxy.selectAll();
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 0, 0, 255]);
     });
@@ -1060,7 +1060,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         });
       `);
       const data = `■`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 0, 0, 255]);
     });
     test('foregroundColor should ignore inverse', async () => {
@@ -1073,7 +1073,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         });
       `);
       const data = `\x1b[7m■\x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 0, 0, 255]);
     });
     test('foregroundColor should ignore inverse (only fg on decoration)', async () => {
@@ -1086,7 +1086,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         });
       `);
       const data = `\x1b[7m■ \x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [255, 0, 0, 255]); // inverse foreground of '■' should be decoration fg override
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 2, 1), [255, 255, 255, 255]); // inverse background of ' ' should be default foreground
     });
@@ -1100,7 +1100,7 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         });
       `);
       const data = ` `;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [0, 0, 255, 255]);
     });
     test('backgroundColor should ignore inverse', async () => {
@@ -1113,12 +1113,12 @@ export function injectSharedRendererTests(ctx: ISharedRendererTestContext): void
         });
       `);
       const data = `\x1b[7m \x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await pollFor(ctx.value.page, () => getCellColor(ctx.value, 1, 1), [0, 0, 255, 255]);
     });
     (ctx.skipCanvasExceptions ? test.skip : test)('backgroundColor should ignore inverse (only bg on decoration)', async () => {
       const data = `\x1b[7m■ \x1b[0m`;
-      await ctx.value.proxy.write( data);
+      await ctx.value.proxy.write(data);
       await ctx.value.page.evaluate(`
         const marker = window.term.registerMarker(-window.term.buffer.active.cursorY);
         window.term.registerDecoration({

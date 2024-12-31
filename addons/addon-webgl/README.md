@@ -11,8 +11,8 @@ npm install --save @xterm/addon-webgl
 ### Usage
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { WebglAddon } from '@xterm/addon-webgl';
+import { Terminal } from "@jsnix/xterm";
+import { WebglAddon } from "@xterm/addon-webgl";
 
 const terminal = new Terminal();
 terminal.open(element);
@@ -28,7 +28,7 @@ The browser may drop WebGL contexts for various reasons like OOM or after the sy
 ```ts
 const terminal = new Terminal();
 const addon = new WebglAddon();
-addon.onContextLoss(e => {
+addon.onContextLoss((e) => {
   addon.dispose();
 });
 terminal.loadAddon(addon);

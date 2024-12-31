@@ -16,7 +16,7 @@
       "common/*": [
         "../../../src/common/*"
       ],
-      "@xterm/addon-unicode-graphemes": [
+      "@jsnix/addon-unicode-graphemes": [
         "../typings/addon-unicode-graphemes.d.ts"
       ]
     },

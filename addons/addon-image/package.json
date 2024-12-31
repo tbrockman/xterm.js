@@ -24,7 +24,7 @@
     "start": "node ../../demo/start"
   },
   "peerDependencies": {
-    "@xterm/xterm": "^5.2.0"
+    "@jsnix/xterm": "^5.2.0"
   },
   "devDependencies": {
     "sixel": "^0.16.0",

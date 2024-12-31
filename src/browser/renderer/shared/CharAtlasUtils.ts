@@ -5,7 +5,7 @@
 
 import { ICharAtlasConfig } from './Types';
 import { Attributes } from 'common/buffer/Constants';
-import { ITerminalOptions } from '@xterm/xterm';
+import { ITerminalOptions } from '@jsnix/xterm';
 import { IColorSet, ReadonlyColorSet } from 'browser/Types';
 import { NULL_COLOR } from 'common/Color';
 
@@ -58,20 +58,20 @@ export function configEquals(a: ICharAtlasConfig, b: ICharAtlasConfig): boolean 
     }
   }
   return a.devicePixelRatio === b.devicePixelRatio &&
-      a.customGlyphs === b.customGlyphs &&
-      a.lineHeight === b.lineHeight &&
-      a.letterSpacing === b.letterSpacing &&
-      a.fontFamily === b.fontFamily &&
-      a.fontSize === b.fontSize &&
-      a.fontWeight === b.fontWeight &&
-      a.fontWeightBold === b.fontWeightBold &&
-      a.allowTransparency === b.allowTransparency &&
-      a.deviceCharWidth === b.deviceCharWidth &&
-      a.deviceCharHeight === b.deviceCharHeight &&
-      a.drawBoldTextInBrightColors === b.drawBoldTextInBrightColors &&
-      a.minimumContrastRatio === b.minimumContrastRatio &&
-      a.colors.foreground.rgba === b.colors.foreground.rgba &&
-      a.colors.background.rgba === b.colors.background.rgba;
+    a.customGlyphs === b.customGlyphs &&
+    a.lineHeight === b.lineHeight &&
+    a.letterSpacing === b.letterSpacing &&
+    a.fontFamily === b.fontFamily &&
+    a.fontSize === b.fontSize &&
+    a.fontWeight === b.fontWeight &&
+    a.fontWeightBold === b.fontWeightBold &&
+    a.allowTransparency === b.allowTransparency &&
+    a.deviceCharWidth === b.deviceCharWidth &&
+    a.deviceCharHeight === b.deviceCharHeight &&
+    a.drawBoldTextInBrightColors === b.drawBoldTextInBrightColors &&
+    a.minimumContrastRatio === b.minimumContrastRatio &&
+    a.colors.foreground.rgba === b.colors.foreground.rgba &&
+    a.colors.background.rgba === b.colors.background.rgba;
 }
 
 export function is256Color(colorCode: number): boolean {

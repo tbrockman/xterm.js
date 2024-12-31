@@ -11,8 +11,8 @@ npm install --save @xterm/addon-attach
 ### Usage
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { AttachAddon } from '@xterm/addon-attach';
+import { Terminal } from "@jsnix/xterm";
+import { AttachAddon } from "@xterm/addon-attach";
 
 const terminal = new Terminal();
 const attachAddon = new AttachAddon(webSocket);

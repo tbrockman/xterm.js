@@ -8,7 +8,7 @@ import { TextureAtlas } from 'browser/renderer/shared/TextureAtlas';
 import { IRasterizedGlyph, IRenderDimensions, ITextureAtlas } from 'browser/renderer/shared/Types';
 import { NULL_CELL_CODE } from 'common/buffer/Constants';
 import { Disposable, toDisposable } from 'vs/base/common/lifecycle';
-import { Terminal } from '@xterm/xterm';
+import { Terminal } from '@jsnix/xterm';
 import { IRenderModel, IWebGL2RenderingContext, IWebGLVertexArrayObject } from './Types';
 import { createProgram, GLTexture, PROJECTION_MATRIX } from './WebglUtils';
 import type { IOptionsService } from 'common/services/Services';
@@ -247,7 +247,7 @@ export class GlyphRenderer extends Disposable {
     if (bg !== lastBg && $glyph.offset.x > $leftCellPadding) {
       $clippedPixels = $glyph.offset.x - $leftCellPadding;
       // a_origin
-      array[$i    ] = -($glyph.offset.x - $clippedPixels) + this._dimensions.device.char.left;
+      array[$i] = -($glyph.offset.x - $clippedPixels) + this._dimensions.device.char.left;
       array[$i + 1] = -$glyph.offset.y + this._dimensions.device.char.top;
       // a_size
       array[$i + 2] = ($glyph.size.x - $clippedPixels) / this._dimensions.device.canvas.width;
@@ -262,7 +262,7 @@ export class GlyphRenderer extends Disposable {
       array[$i + 8] = $glyph.sizeClipSpace.y;
     } else {
       // a_origin
-      array[$i    ] = -$glyph.offset.x + this._dimensions.device.char.left;
+      array[$i] = -$glyph.offset.x + this._dimensions.device.char.left;
       array[$i + 1] = -$glyph.offset.y + this._dimensions.device.char.top;
       // a_size
       array[$i + 2] = $glyph.size.x / this._dimensions.device.canvas.width;

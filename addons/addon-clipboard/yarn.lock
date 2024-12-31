@@ -11,7 +11,7 @@ __metadata:
   dependencies:
     js-base64: "npm:^3.7.5"
   peerDependencies:
-    "@xterm/xterm": ^5.4.0
+    "@jsnix/xterm": ^5.4.0
   languageName: unknown
   linkType: soft
 

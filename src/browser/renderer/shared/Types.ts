@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { FontWeight, Terminal } from '@xterm/xterm';
+import { FontWeight, Terminal } from '@jsnix/xterm';
 import { IColorSet, ITerminal } from 'browser/Types';
 import { IDisposable } from 'common/Types';
 import type { Event } from 'vs/base/common/event';

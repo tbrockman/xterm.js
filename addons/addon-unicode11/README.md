@@ -11,13 +11,13 @@ npm install --save @xterm/addon-unicode11
 ### Usage
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { Unicode11Addon } from '@xterm/addon-unicode11';
+import { Terminal } from "@jsnix/xterm";
+import { Unicode11Addon } from "@xterm/addon-unicode11";
 
 const terminal = new Terminal();
 const unicode11Addon = new Unicode11Addon();
 terminal.loadAddon(unicode11Addon);
 
 // activate the new version
-terminal.unicode.activeVersion = '11';
+terminal.unicode.activeVersion = "11";
 ```

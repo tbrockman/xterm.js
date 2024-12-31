@@ -3,9 +3,9 @@
  * @license MIT
  */
 
-import { Terminal, ITerminalAddon } from '@xterm/xterm';
+import { Terminal, ITerminalAddon } from '@jsnix/xterm';
 
-declare module '@xterm/addon-unicode-graphemes' {
+declare module '@jsnix/addon-unicode-graphemes' {
   export class UnicodeGraphemesAddon implements ITerminalAddon {
     constructor();
     public activate(terminal: Terminal): void;

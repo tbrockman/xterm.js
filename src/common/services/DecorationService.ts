@@ -8,7 +8,7 @@ import { Disposable, DisposableStore, toDisposable } from 'vs/base/common/lifecy
 import { IDecorationService, IInternalDecoration } from 'common/services/Services';
 import { SortedList } from 'common/SortedList';
 import { IColor } from 'common/Types';
-import { IDecoration, IDecorationOptions, IMarker } from '@xterm/xterm';
+import { IDecoration, IDecorationOptions, IMarker } from '@jsnix/xterm';
 import { Emitter } from 'vs/base/common/event';
 
 // Work variables to avoid garbage collection

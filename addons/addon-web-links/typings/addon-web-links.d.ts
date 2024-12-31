@@ -4,7 +4,7 @@
  */
 
 
-import { Terminal, ITerminalAddon, IViewportRange } from '@xterm/xterm';
+import { Terminal, ITerminalAddon, IViewportRange } from '@jsnix/xterm';
 
 declare module '@xterm/addon-web-links' {
   /**

@@ -131,7 +131,7 @@ if (config.addon) {
     external: ['util', 'os', 'fs', 'path', 'stream', 'Terminal'],
     alias: {
       // Library ESM imports
-      "@xterm/xterm": ".",
+      "@jsnix/xterm": ".",
       "@xterm/addon-attach": "./addons/addon-attach/lib/addon-attach.mjs",
       "@xterm/addon-clipboard": "./addons/addon-clipboard/lib/addon-clipboard.mjs",
       "@xterm/addon-fit": "./addons/addon-fit/lib/addon-fit.mjs",
@@ -141,7 +141,7 @@ if (config.addon) {
       "@xterm/addon-web-links": "./addons/addon-web-links/lib/addon-web-links.mjs",
       "@xterm/addon-webgl": "./addons/addon-webgl/lib/addon-webgl.mjs",
       "@xterm/addon-unicode11": "./addons/addon-unicode11/lib/addon-unicode11.mjs",
-      "@xterm/addon-unicode-graphemes": "./addons/addon-unicode-graphemes/lib/addon-unicode-graphemes.mjs",
+      "@jsnix/addon-unicode-graphemes": "./addons/addon-unicode-graphemes/lib/addon-unicode-graphemes.mjs",
 
       // Non-bundled ESM imports
       // HACK: Ligatures imports fs which in the esbuild bundle resolves at runtime _on startup_

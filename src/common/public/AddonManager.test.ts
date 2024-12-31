@@ -5,7 +5,7 @@
 
 import { assert } from 'chai';
 import { AddonManager, ILoadedAddon } from './AddonManager';
-import { ITerminalAddon } from '@xterm/xterm';
+import { ITerminalAddon } from '@jsnix/xterm';
 
 class TestAddonManager extends AddonManager {
   public get addons(): ILoadedAddon[] {
@@ -39,7 +39,7 @@ describe('AddonManager', () => {
     it('should dispose all loaded addons', () => {
       let called = 0;
       class Addon implements ITerminalAddon {
-        public activate(): void {}
+        public activate(): void { }
         public dispose(): void { called++; }
       }
       manager.loadAddon(null!, new Addon());

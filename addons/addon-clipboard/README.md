@@ -12,8 +12,8 @@ npm install --save @xterm/addon-clipboard
 ### Usage
 
 ```ts
-import { Terminal } from 'xterm';
-import { ClipboardAddon } from '@xterm/addon-clipboard';
+import { Terminal } from "xterm";
+import { ClipboardAddon } from "@xterm/addon-clipboard";
 
 const terminal = new Terminal();
 const clipboardAddon = new ClipboardAddon();
@@ -23,8 +23,12 @@ terminal.loadAddon(clipboardAddon);
 To use a custom clipboard provider
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { ClipboardAddon, IClipboardProvider, ClipboardSelectionType } from '@xterm/addon-clipboard';
+import { Terminal } from "@jsnix/xterm";
+import {
+  ClipboardAddon,
+  IClipboardProvider,
+  ClipboardSelectionType,
+} from "@xterm/addon-clipboard";
 
 function b64Encode(data: string): string {
   // Base64 encode impl
@@ -35,11 +39,14 @@ function b64Decode(data: string): string {
 }
 
 class MyCustomClipboardProvider implements IClipboardProvider {
-  private _data: string
+  private _data: string;
   public readText(selection: ClipboardSelectionType): Promise<string> {
     return Promise.resolve(b64Encode(this._data));
   }
-  public writeText(selection: ClipboardSelectionType, data: string): Promise<void> {
+  public writeText(
+    selection: ClipboardSelectionType,
+    data: string
+  ): Promise<void> {
     this._data = b64Decode(data);
     return Promise.resolve();
   }

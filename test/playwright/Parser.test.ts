@@ -4,7 +4,7 @@
  */
 import { test } from '@playwright/test';
 import { deepStrictEqual, ok, strictEqual } from 'assert';
-import type { IDisposable } from '@xterm/xterm';
+import type { IDisposable } from '@jsnix/xterm';
 import { createTestContext, ITestContext, openTerminal, pollFor } from './TestUtils';
 
 let ctx: ITestContext;
@@ -41,7 +41,7 @@ test.describe('Parser Integration Tests', () => {
     test('should call custom CSI handler with js array params', async () => {
       await ctx.proxy.evaluate(([term]) => {
         window.customCsiHandlerParams = [];
-        window.disposable = term.parser.registerCsiHandler({final: 'm'}, (params) => {
+        window.disposable = term.parser.registerCsiHandler({ final: 'm' }, (params) => {
           window.customCsiHandlerParams!.push(params);
           return false;
         });
@@ -57,19 +57,19 @@ test.describe('Parser Integration Tests', () => {
         window.customCsiHandlerCallStack = [];
         window.customCsiHandlerParams = [];
         window.disposables = [
-          term.parser.registerCsiHandler({intermediates:'+', final: 'Z'}, params => {
+          term.parser.registerCsiHandler({ intermediates: '+', final: 'Z' }, params => {
             window.customCsiHandlerCallStack!.push('A');
             window.customCsiHandlerParams!.push(params);
             return false;
           }),
-          term.parser.registerCsiHandler({intermediates:'+', final: 'Z'}, params => {
+          term.parser.registerCsiHandler({ intermediates: '+', final: 'Z' }, params => {
             return new Promise(res => setTimeout(res, 50)).then(() => {
               window.customCsiHandlerCallStack!.push('B');
               window.customCsiHandlerParams!.push(params);
               return false;
             });
           }),
-          term.parser.registerCsiHandler({intermediates:'+', final: 'Z'}, params => {
+          term.parser.registerCsiHandler({ intermediates: '+', final: 'Z' }, params => {
             window.customCsiHandlerCallStack!.push('C');
             window.customCsiHandlerParams!.push(params);
             return false;
@@ -94,15 +94,15 @@ test.describe('Parser Integration Tests', () => {
       await ctx.proxy.evaluate(([term]) => {
         window.customDcsHandlerCallStack = [];
         window.disposables = [
-          term.parser.registerDcsHandler({intermediates:'+', final: 'p'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'p' }, (data, params) => {
             window.customDcsHandlerCallStack!.push(['A', params, data]);
             return false;
           }),
-          term.parser.registerDcsHandler({intermediates:'+', final: 'p'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'p' }, (data, params) => {
             window.customDcsHandlerCallStack!.push(['B', params, data]);
             return true;
           }),
-          term.parser.registerDcsHandler({intermediates:'+', final: 'p'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'p' }, (data, params) => {
             window.customDcsHandlerCallStack!.push(['C', params, data]);
             return false;
           })
@@ -118,17 +118,17 @@ test.describe('Parser Integration Tests', () => {
       await ctx.proxy.evaluate(([term]) => {
         window.customDcsHandlerCallStack = [];
         window.disposables = [
-          term.parser.registerDcsHandler({intermediates:'+', final: 'q'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'q' }, (data, params) => {
             window.customDcsHandlerCallStack!.push(['A', params, data]);
             return false;
           }),
-          term.parser.registerDcsHandler({intermediates:'+', final: 'q'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'q' }, (data, params) => {
             return new Promise(res => setTimeout(res, 50)).then(() => {
               window.customDcsHandlerCallStack!.push(['B', params, data]);
               return false;
             });
           }),
-          term.parser.registerDcsHandler({intermediates:'+', final: 'q'}, (data, params) => {
+          term.parser.registerDcsHandler({ intermediates: '+', final: 'q' }, (data, params) => {
             window.customDcsHandlerCallStack!.push(['C', params, data]);
             return false;
           })
@@ -147,15 +147,15 @@ test.describe('Parser Integration Tests', () => {
       await ctx.proxy.evaluate(([term]) => {
         window.customEscHandlerCallStack = [];
         window.disposables = [
-          term.parser.registerEscHandler({intermediates:'(', final: 'B'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'B' }, () => {
             window.customEscHandlerCallStack!.push('A');
             return false;
           }),
-          term.parser.registerEscHandler({intermediates:'(', final: 'B'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'B' }, () => {
             window.customEscHandlerCallStack!.push('B');
             return true;
           }),
-          term.parser.registerEscHandler({intermediates:'(', final: 'B'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'B' }, () => {
             window.customEscHandlerCallStack!.push('C');
             return false;
           })
@@ -168,17 +168,17 @@ test.describe('Parser Integration Tests', () => {
       await ctx.proxy.evaluate(([term]) => {
         window.customEscHandlerCallStack = [];
         window.disposables = [
-          term.parser.registerEscHandler({intermediates:'(', final: 'Z'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'Z' }, () => {
             window.customEscHandlerCallStack!.push('A');
             return false;
           }),
-          term.parser.registerEscHandler({intermediates:'(', final: 'Z'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'Z' }, () => {
             return new Promise(res => setTimeout(res, 50)).then(() => {
               window.customEscHandlerCallStack!.push('B');
               return false;
             });
           }),
-          term.parser.registerEscHandler({intermediates:'(', final: 'Z'}, () => {
+          term.parser.registerEscHandler({ intermediates: '(', final: 'Z' }, () => {
             window.customEscHandlerCallStack!.push('C');
             return false;
           })

@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import type { IDisposable, ITerminalAddon, Terminal } from '@xterm/xterm';
+import type { IDisposable, ITerminalAddon, Terminal } from '@jsnix/xterm';
 import { type IClipboardProvider, ClipboardSelectionType, type IBase64 } from '@xterm/addon-clipboard';
 import { Base64 as JSBase64 } from 'js-base64';
 
@@ -14,7 +14,7 @@ export class ClipboardAddon implements ITerminalAddon {
   constructor(
     private _base64: IBase64 = new Base64(),
     private _provider: IClipboardProvider = new BrowserClipboardProvider()
-  ) {}
+  ) { }
 
   public activate(terminal: Terminal): void {
     this._terminal = terminal;
@@ -57,7 +57,7 @@ export class ClipboardAddon implements ITerminalAddon {
     let text = '';
     try {
       text = this._base64.decodeText(pd);
-    } catch {}
+    } catch { }
 
 
     const result = this._provider.writeText(pc, text);

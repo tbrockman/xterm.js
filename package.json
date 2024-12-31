@@ -1,7 +1,7 @@
 {
   "name": "@jsnix/xterm",
   "description": "Full xterm terminal, in your browser",
-  "version": "5.5.2",
+  "version": "5.5.3",
   "main": "lib/xterm.js",
   "module": "lib/xterm.mjs",
   "style": "css/xterm.css",

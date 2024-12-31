@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { Terminal, ITerminalAddon } from '@xterm/xterm';
+import { Terminal, ITerminalAddon } from '@jsnix/xterm';
 
 declare module '@xterm/addon-clipboard' {
   /**
@@ -94,7 +94,7 @@ declare module '@xterm/addon-clipboard' {
   /**
    * The clipboard provider interface that enables xterm.js to access the system clipboard.
    */
-  export class BrowserClipboardProvider implements IClipboardProvider{
+  export class BrowserClipboardProvider implements IClipboardProvider {
     /**
      * Reads text from the clipboard.
      * @param selection The selection type to read from.

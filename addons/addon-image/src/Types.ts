@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { IDisposable, IMarker, Terminal } from '@xterm/xterm';
+import { IDisposable, IMarker, Terminal } from '@jsnix/xterm';
 
 // private imports from base repo we build against
 import { Attributes, BgFlags, Content, ExtFlags, UnderlineStyle } from 'common/buffer/Constants';
@@ -61,7 +61,7 @@ export interface IExtendedAttrsImage extends IExtendedAttrs {
 
 /* eslint-disable */
 export interface IBufferLineExt extends IBufferLine {
-  _extendedAttrs: {[index: number]: IExtendedAttrsImage | undefined};
+  _extendedAttrs: { [index: number]: IExtendedAttrsImage | undefined };
   _data: Uint32Array;
 }
 

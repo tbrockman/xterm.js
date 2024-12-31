@@ -11,13 +11,13 @@ npm install --save @xterm/addon-search
 ### Usage
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { SearchAddon } from '@xterm/addon-search';
+import { Terminal } from "@jsnix/xterm";
+import { SearchAddon } from "@xterm/addon-search";
 
 const terminal = new Terminal();
 const searchAddon = new SearchAddon();
 terminal.loadAddon(searchAddon);
-searchAddon.findNext('foo');
+searchAddon.findNext("foo");
 ```
 
 See the full [API](https://github.com/xtermjs/xterm.js/blob/master/addons/addon-search/typings/addon-search.d.ts) for more advanced usage.

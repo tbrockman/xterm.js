@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { ITerminalAddon, IDisposable, Terminal } from '@xterm/xterm';
+import { ITerminalAddon, IDisposable, Terminal } from '@jsnix/xterm';
 
 export interface ILoadedAddon {
   instance: ITerminalAddon;

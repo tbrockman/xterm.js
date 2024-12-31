@@ -33,7 +33,7 @@ const changedFiles = getChangedFilesInCommit('HEAD');
 const result = checkAndPublishPackage(path.resolve(__dirname, '..'), repoCommit);
 const isStableRelease = result.isStableRelease;
 const peerDependencies = result.nextVersion.includes('beta') ? {
-  '@xterm/xterm': `^${result.nextVersion}`,
+  '@jsnix/xterm': `^${result.nextVersion}`,
 } : undefined;
 checkAndPublishPackage(path.resolve(__dirname, '../headless'), repoCommit);
 
@@ -49,7 +49,7 @@ const addonPackageDirs = [
   path.resolve(__dirname, '../addons/addon-search'),
   path.resolve(__dirname, '../addons/addon-serialize'),
   path.resolve(__dirname, '../addons/addon-unicode11'),
-  // path.resolve(__dirname, '../addons/addon-unicode-graphemes'),
+  path.resolve(__dirname, '../addons/addon-unicode-graphemes'),
   path.resolve(__dirname, '../addons/addon-web-links'),
   path.resolve(__dirname, '../addons/addon-webgl')
 ];
@@ -170,7 +170,7 @@ function getPublishedVersions(packageJson, version, tag) {
   }
   const output = JSON.parse(versionsProcess.stdout);
   if (typeof output === 'object' && !Array.isArray(output)) {
-    if (output.error?.code === 'E404')  {
+    if (output.error?.code === 'E404') {
       return [];
     }
     throw new Error('Could not get published versions\n' + output);

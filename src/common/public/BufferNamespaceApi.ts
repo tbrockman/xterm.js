@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { IBuffer as IBufferApi, IBufferNamespace as IBufferNamespaceApi } from '@xterm/xterm';
+import { IBuffer as IBufferApi, IBufferNamespace as IBufferNamespaceApi } from '@jsnix/xterm';
 import { BufferApiView } from 'common/public/BufferApiView';
 import { ICoreTerminal } from 'common/Types';
 import { Disposable } from 'vs/base/common/lifecycle';

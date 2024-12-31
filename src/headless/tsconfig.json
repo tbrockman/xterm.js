@@ -12,17 +12,25 @@
     ],
     "baseUrl": "../",
     "paths": {
-      "common/*": [ "./common/*" ],
-      "vs/*": [ "./vs/*" ]
+      "common/*": [
+        "./common/*"
+      ],
+      "vs/*": [
+        "./vs/*"
+      ]
     }
   },
   "include": [
     "./**/*",
-    "../../typings/xterm.d.ts", // common/Types.d.ts imports from '@xterm/xterm'
+    "../../typings/xterm.d.ts", // common/Types.d.ts imports from '@jsnix/xterm'
     "../../typings/xterm-headless.d.ts"
   ],
   "references": [
-    { "path": "../common" },
-    { "path": "../vs" }
+    {
+      "path": "../common"
+    },
+    {
+      "path": "../vs"
+    }
   ]
 }

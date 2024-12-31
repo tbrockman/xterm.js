@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { Terminal, ITerminalAddon } from '@xterm/xterm';
+import { Terminal, ITerminalAddon } from '@jsnix/xterm';
 
 declare module '@xterm/addon-unicode11' {
   export class Unicode11Addon implements ITerminalAddon {

@@ -11,8 +11,8 @@ npm install --save @xterm/addon-fit
 ### Usage
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { FitAddon } from '@xterm/addon-fit';
+import { Terminal } from "@jsnix/xterm";
+import { FitAddon } from "@xterm/addon-fit";
 
 const terminal = new Terminal();
 const fitAddon = new FitAddon();

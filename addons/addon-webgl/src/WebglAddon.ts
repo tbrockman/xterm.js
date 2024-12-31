@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import type { ITerminalAddon, Terminal } from '@xterm/xterm';
+import type { ITerminalAddon, Terminal } from '@jsnix/xterm';
 import type { WebglAddon as IWebglApi } from '@xterm/addon-webgl';
 import { ICharacterJoinerService, ICharSizeService, ICoreBrowserService, IRenderService, IThemeService } from 'browser/services/Services';
 import { ITerminal } from 'browser/Types';
@@ -15,7 +15,7 @@ import { WebglRenderer } from './WebglRenderer';
 import { setTraceLogger } from 'common/services/LogService';
 import { Emitter, Event } from 'vs/base/common/event';
 
-export class WebglAddon extends Disposable implements ITerminalAddon , IWebglApi {
+export class WebglAddon extends Disposable implements ITerminalAddon, IWebglApi {
   private _terminal?: Terminal;
   private _renderer?: WebglRenderer;
 

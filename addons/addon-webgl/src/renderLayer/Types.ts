@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { IDisposable, Terminal } from '@xterm/xterm';
+import { IDisposable, Terminal } from '@jsnix/xterm';
 import { IRenderDimensions } from 'browser/renderer/shared/Types';
 
 export interface IRenderLayer extends IDisposable {

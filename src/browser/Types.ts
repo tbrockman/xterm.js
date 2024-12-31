@@ -5,7 +5,7 @@
 
 import { CharData, IColor, ICoreTerminal, ITerminalOptions } from 'common/Types';
 import { IBuffer } from 'common/buffer/Types';
-import { IDisposable, Terminal as ITerminalApi } from '@xterm/xterm';
+import { IDisposable, Terminal as ITerminalApi } from '@jsnix/xterm';
 import { channels, css } from 'common/Color';
 import type { Event } from 'vs/base/common/event';
 

@@ -10,7 +10,7 @@ import type { IRenderService } from 'browser/services/Services';
 import type { ICoreTerminal, IDisposable, IMarker } from 'common/Types';
 import * as playwright from '@playwright/test';
 import { PageFunction } from 'playwright-core/types/structs';
-import { IBuffer, IBufferCell, IBufferLine, IBufferNamespace, IBufferRange, IDecoration, IDecorationOptions, IModes, ITerminalInitOnlyOptions, ITerminalOptions, Terminal } from '@xterm/xterm';
+import { IBuffer, IBufferCell, IBufferLine, IBufferNamespace, IBufferRange, IDecoration, IDecorationOptions, IModes, ITerminalInitOnlyOptions, ITerminalOptions, Terminal } from '@jsnix/xterm';
 
 export interface ITestContext {
   browser: Browser;
@@ -90,8 +90,8 @@ type EnsureAsyncProperties<T> = {
 };
 type EnsureAsyncMethods<T> = {
   [K in keyof T]: T[K] extends (...args: infer Args) => infer Return
-    ? (...args: Args) => Promise<Return>
-    : T[K];
+  ? (...args: Args) => Promise<Return>
+  : T[K];
 };
 
 /**
@@ -509,7 +509,7 @@ export async function pollForApproximate<T>(page: playwright.Page, marginOfError
       }
       if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
         let success = true;
-        for (let i = 0 ; i < a.length; i++) {
+        for (let i = 0; i < a.length; i++) {
           if (Math.abs(a[i] - b[i]) > marginOfError) {
             success = false;
             break;

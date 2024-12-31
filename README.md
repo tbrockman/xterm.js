@@ -5,7 +5,7 @@ Xterm.js is a front-end component written in TypeScript that lets applications b
 ## Features
 
 - **Terminal apps just work**: Xterm.js works with most terminal apps such as `bash`, `vim`, and `tmux`, including support for curses-based apps and mouse events.
-- **Performant**: Xterm.js is *really* fast, it even includes a GPU-accelerated renderer.
+- **Performant**: Xterm.js is _really_ fast, it even includes a GPU-accelerated renderer.
 - **Rich Unicode support**: Supports CJK, emojis, and IMEs.
 - **Self-contained**: Requires zero dependencies to work.
 - **Accessible**: Screen reader and minimum contrast ratio support can be turned on.
@@ -21,27 +21,27 @@ Xterm.js is a front-end component written in TypeScript that lets applications b
 First, you need to install the module, we ship exclusively through [npm](https://www.npmjs.com/), so you need that installed and then add xterm.js as a dependency by running:
 
 ```bash
-npm install @xterm/xterm
+npm install @jsnix/xterm
 ```
 
 To start using xterm.js on your browser, add the `xterm.js` and `xterm.css` to the head of your HTML page. Then create a `<div id="terminal"></div>` onto which xterm can attach itself. Finally, instantiate the `Terminal` object and then call the `open` function with the DOM object of the `div`.
 
 ```html
-<!doctype html>
-  <html>
-    <head>
-      <link rel="stylesheet" href="node_modules/@xterm/xterm/css/xterm.css" />
-      <script src="node_modules/@xterm/xterm/lib/xterm.js"></script>
-    </head>
-    <body>
-      <div id="terminal"></div>
-      <script>
-        var term = new Terminal();
-        term.open(document.getElementById('terminal'));
-        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-      </script>
-    </body>
-  </html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="node_modules/@jsnix/xterm/css/xterm.css" />
+    <script src="node_modules/@jsnix/xterm/lib/xterm.js"></script>
+  </head>
+  <body>
+    <div id="terminal"></div>
+    <script>
+      var term = new Terminal();
+      term.open(document.getElementById("terminal"));
+      term.write("Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ");
+    </script>
+  </body>
+</html>
 ```
 
 ### Importing
@@ -49,12 +49,12 @@ To start using xterm.js on your browser, add the `xterm.js` and `xterm.css` to t
 The recommended way to load xterm.js is via the ES6 module syntax:
 
 ```javascript
-import { Terminal } from '@xterm/xterm';
+import { Terminal } from "@jsnix/xterm";
 ```
 
 ### Addons
 
-⚠️ *This section describes the new addon format introduced in v3.14.0, see [here](https://github.com/xtermjs/xterm.js/blob/3.14.2/README.md#addons) for the instructions on the old format*
+⚠️ _This section describes the new addon format introduced in v3.14.0, see [here](https://github.com/xtermjs/xterm.js/blob/3.14.2/README.md#addons) for the instructions on the old format_
 
 Addons are separate modules that extend the `Terminal` by building on the [xterm.js API](https://github.com/xtermjs/xterm.js/blob/master/typings/xterm.d.ts). To use an addon, you first need to install it in your project:
 
@@ -65,8 +65,8 @@ npm i -S @xterm/addon-web-links
 Then import the addon, instantiate it and call `Terminal.loadAddon`:
 
 ```ts
-import { Terminal } from '@xterm/xterm';
-import { WebLinksAddon } from '@xterm/addon-web-links';
+import { Terminal } from "@jsnix/xterm";
+import { WebLinksAddon } from "@xterm/addon-web-links";
 
 const terminal = new Terminal();
 // Load WebLinksAddon on terminal, this is all that's needed to get web links
@@ -88,7 +88,7 @@ The xterm.js team maintains the following addons, but anyone can build them:
 
 ## Browser Support
 
-Since xterm.js is typically implemented as a developer tool, only modern browsers are supported officially. Specifically the latest versions of *Chrome*, *Edge*, *Firefox*, and *Safari*.
+Since xterm.js is typically implemented as a developer tool, only modern browsers are supported officially. Specifically the latest versions of _Chrome_, _Edge_, _Firefox_, and _Safari_.
 
 Xterm.js works seamlessly in [Electron](https://electronjs.org/) apps and may even work on earlier versions of the browsers. These are the versions we strive to keep working.
 
@@ -100,7 +100,7 @@ We also publish [`xterm-headless`](https://www.npmjs.com/package/xterm-headless)
 
 The full API for xterm.js is contained within the [TypeScript declaration file](https://github.com/xtermjs/xterm.js/blob/master/typings/xterm.d.ts), use the branch/tag picker in GitHub (`w`) to navigate to the correct version of the API.
 
-Note that some APIs are marked *experimental*, these are added to enable experimentation with new ideas without committing to support it like a normal [semver](https://semver.org/) API. Note that these APIs can change radically between versions, so be sure to read release notes if you plan on using experimental APIs.
+Note that some APIs are marked _experimental_, these are added to enable experimentation with new ideas without committing to support it like a normal [semver](https://semver.org/) API. Note that these APIs can change radically between versions, so be sure to read release notes if you plan on using experimental APIs.
 
 ## Releases
 
@@ -113,7 +113,7 @@ All current and past releases are available on this repo's [Releases page](https
 Our CI releases beta builds to npm for every change that goes into master. Install the latest beta build with:
 
 ```bash
-npm install -S @xterm/xterm@beta
+npm install -S @jsnix/xterm@beta
 ```
 
 These should generally be stable, but some bugs may slip in. We recommend using the beta build primarily to test out new features and to verify bug fixes.
@@ -123,6 +123,7 @@ These should generally be stable, but some bugs may slip in. We recommend using 
 You can read the [guide on the wiki](https://github.com/xtermjs/xterm.js/wiki/Contributing) to learn how to contribute and set up xterm.js for development.
 
 ## Real-world uses
+
 Xterm.js is used in several world-class applications to provide great terminal experiences.
 
 - [**SourceLair**](https://www.sourcelair.com/): In-browser IDE that provides its users with fully-featured Linux terminals based on xterm.js.
@@ -174,7 +175,7 @@ Xterm.js is used in several world-class applications to provide great terminal e
 - [**LxdMosaic**](https://github.com/turtle0x1/LxdMosaic): Uses xterm.js to give terminal access to containers through LXD
 - [**CodeInterview.io**](https://codeinterview.io): A coding interview platform in 25+ languages and many web frameworks. Uses xterm.js to provide shell access.
 - [**Bastillion**](https://www.bastillion.io): Bastillion is an open-source web-based SSH console that centrally manages administrative access to systems.
-- [**PHP App Server**](https://github.com/cubiclesoft/php-app-server/): Create lightweight, installable almost-native applications for desktop OSes.  ExecTerminal (nicely wraps the xterm.js Terminal), TerminalManager, and RunProcessSDK are self-contained, reusable ES5+ compliant Javascript components.
+- [**PHP App Server**](https://github.com/cubiclesoft/php-app-server/): Create lightweight, installable almost-native applications for desktop OSes. ExecTerminal (nicely wraps the xterm.js Terminal), TerminalManager, and RunProcessSDK are self-contained, reusable ES5+ compliant Javascript components.
 - [**NgTerminal**](https://github.com/qwefgh90/ng-terminal): NgTerminal is a web terminal that leverages xterm.js on Angular 7+. You can easily add it into your application by adding `<ng-terminal></ng-terminal>` into your component.
 - [**tty-share**](https://tty-share.com): Extremely simple terminal sharing over the Internet.
 - [**Ten Hands**](https://github.com/saisandeepvaddi/ten-hands): One place to run your command-line tasks.

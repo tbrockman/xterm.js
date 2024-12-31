@@ -5,7 +5,7 @@
 
 import { ITerminal } from 'browser/Types';
 import { ISelectionRenderModel } from 'browser/renderer/shared/Types';
-import { Terminal } from '@xterm/xterm';
+import { Terminal } from '@jsnix/xterm';
 
 class SelectionRenderModel implements ISelectionRenderModel {
   public hasSelection!: boolean;

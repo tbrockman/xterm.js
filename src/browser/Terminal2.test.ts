@@ -9,13 +9,13 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as pty from 'node-pty';
 import { CoreBrowserTerminal } from 'browser/CoreBrowserTerminal';
-import { IDisposable } from '@xterm/xterm';
+import { IDisposable } from '@jsnix/xterm';
 
 // all test files expect terminal in 80x25
 const COLS = 80;
 const ROWS = 25;
 
-const TESTFILES = glob.sync('**/escape_sequence_files/*.in', { cwd: path.join(__dirname, '../..')});
+const TESTFILES = glob.sync('**/escape_sequence_files/*.in', { cwd: path.join(__dirname, '../..') });
 const SKIP_FILES = [
   't0055-EL.in',            // EL/ED handle cursor at cols differently (see #3362)
   't0084-CBT.in',
@@ -35,7 +35,7 @@ if (os.platform() === 'darwin') {
 // filter skipFilenames
 const FILES = TESTFILES.filter(value => !SKIP_FILES.includes(value.split('/').slice(-1)[0]));
 
-describe('Escape Sequence Files', function(): void {
+describe('Escape Sequence Files', function (): void {
   this.timeout(1000);
 
   let ptyTerm: any;
@@ -47,9 +47,9 @@ describe('Escape Sequence Files', function(): void {
     if (process.platform === 'win32') {
       return;
     }
-    ptyTerm = (pty as any).open({cols: COLS, rows: ROWS});
+    ptyTerm = (pty as any).open({ cols: COLS, rows: ROWS });
     slaveEnd = ptyTerm._slave;
-    term = new CoreBrowserTerminal({cols: COLS, rows: ROWS});
+    term = new CoreBrowserTerminal({ cols: COLS, rows: ROWS });
     ptyTerm._master.on('data', (data: string) => term.write(data));
   });
 

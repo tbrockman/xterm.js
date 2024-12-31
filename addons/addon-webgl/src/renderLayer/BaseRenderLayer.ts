@@ -12,7 +12,7 @@ import { ICoreBrowserService, IThemeService } from 'browser/services/Services';
 import { Disposable, toDisposable } from 'vs/base/common/lifecycle';
 import { CellData } from 'common/buffer/CellData';
 import { IOptionsService } from 'common/services/Services';
-import { Terminal } from '@xterm/xterm';
+import { Terminal } from '@jsnix/xterm';
 import { IRenderLayer } from './Types';
 
 export abstract class BaseRenderLayer extends Disposable implements IRenderLayer {
@@ -60,11 +60,11 @@ export abstract class BaseRenderLayer extends Disposable implements IRenderLayer
     }
   }
 
-  public handleBlur(terminal: Terminal): void {}
-  public handleFocus(terminal: Terminal): void {}
-  public handleCursorMove(terminal: Terminal): void {}
-  public handleGridChanged(terminal: Terminal, startRow: number, endRow: number): void {}
-  public handleSelectionChanged(terminal: Terminal, start: [number, number] | undefined, end: [number, number] | undefined, columnSelectMode: boolean = false): void {}
+  public handleBlur(terminal: Terminal): void { }
+  public handleFocus(terminal: Terminal): void { }
+  public handleCursorMove(terminal: Terminal): void { }
+  public handleGridChanged(terminal: Terminal, startRow: number, endRow: number): void { }
+  public handleSelectionChanged(terminal: Terminal, start: [number, number] | undefined, end: [number, number] | undefined, columnSelectMode: boolean = false): void { }
 
   protected _setTransparency(terminal: Terminal, alpha: boolean): void {
     // Do nothing when alpha doesn't change

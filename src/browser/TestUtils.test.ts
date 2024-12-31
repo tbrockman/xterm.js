@@ -3,7 +3,7 @@
  * @license MIT
  */
 
-import { IDisposable, IMarker, ILinkProvider, IDecorationOptions, IDecoration } from '@xterm/xterm';
+import { IDisposable, IMarker, ILinkProvider, IDecorationOptions, IDecoration } from '@jsnix/xterm';
 import { ICharacterJoinerService, ICharSizeService, ICoreBrowserService, IMouseService, IRenderService, ISelectionService, IThemeService } from 'browser/services/Services';
 import { IRenderDimensions, IRenderer, IRequestRedrawEvent } from 'browser/renderer/shared/Types';
 import { IColorSet, ITerminal, ILinkifier2, IBrowser, IViewport, ICompositionHelper, CharacterJoinerHandler, IBufferRange, ReadonlyColorSet, IBufferElementProvider } from 'browser/Types';
@@ -373,13 +373,13 @@ export class MockCharSizeService implements ICharSizeService {
   public serviceBrand: undefined;
   public get hasValidSize(): boolean { return this.width > 0 && this.height > 0; }
   public onCharSizeChange: Event<void> = new Emitter<void>().event;
-  constructor(public width: number, public height: number) {}
-  public measure(): void {}
+  constructor(public width: number, public height: number) { }
+  public measure(): void { }
 }
 
 export class MockMouseService implements IMouseService {
   public serviceBrand: undefined;
-  public getCoords(event: {clientX: number, clientY: number}, element: HTMLElement, colCount: number, rowCount: number, isSelection?: boolean): [number, number] | undefined {
+  public getCoords(event: { clientX: number, clientY: number }, element: HTMLElement, colCount: number, rowCount: number, isSelection?: boolean): [number, number] | undefined {
     throw new Error('Not implemented');
   }
 
@@ -393,7 +393,7 @@ export class MockRenderService implements IRenderService {
   public onDimensionsChange: Event<IRenderDimensions> = new Emitter<IRenderDimensions>().event;
   public onRenderedViewportChange: Event<{ start: number, end: number }> = new Emitter<{ start: number, end: number }>().event;
   public onRender: Event<{ start: number, end: number }> = new Emitter<{ start: number, end: number }>().event;
-  public onRefreshRequest: Event<{ start: number, end: number}> = new Emitter<{ start: number, end: number }>().event;
+  public onRefreshRequest: Event<{ start: number, end: number }> = new Emitter<{ start: number, end: number }>().event;
   public dimensions: IRenderDimensions = createRenderDimensions();
   public refreshRows(start: number, end: number): void {
     throw new Error('Method not implemented.');
@@ -509,7 +509,7 @@ export class MockSelectionService implements ISelectionService {
   }
 }
 
-export class MockThemeService implements IThemeService{
+export class MockThemeService implements IThemeService {
   public serviceBrand: undefined;
   public onChangeColors = new Emitter<ReadonlyColorSet>().event;
   public restoreColor(slot?: ColorIndex | undefined): void {
