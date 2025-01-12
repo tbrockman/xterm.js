@@ -43,9 +43,6 @@ export class Terminal extends CoreTerminal {
     options: ITerminalOptions = {}
   ) {
     super(options);
-
-    console.log('console still logging, we just bad')
-
     this._setup();
 
     // Setup InputHandler listeners

@@ -19,7 +19,7 @@ if ('WebAssembly' in window) {
 import { Terminal, ITerminalOptions, type IDisposable, type ITheme } from '@jsnix/xterm';
 import { AttachAddon } from '@xterm/addon-attach';
 import { ClipboardAddon } from '@xterm/addon-clipboard';
-import { FitAddon } from '@xterm/addon-fit';
+import { FitAddon } from '@jsnix/addon-fit';
 import { LigaturesAddon } from '@xterm/addon-ligatures';
 import { SearchAddon, ISearchOptions } from '@xterm/addon-search';
 import { SerializeAddon } from '@xterm/addon-serialize';

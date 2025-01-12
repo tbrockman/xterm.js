@@ -606,7 +606,7 @@ export class InputHandler extends Disposable implements IInputHandler {
         // since an empty cell is only set by fullwidth chars
         bufferRow.addCodepointToCell(this._activeBuffer.x - offset,
           code, chWidth);
-        for (let delta = chWidth - oldWidth; --delta >= 0; ) {
+        for (let delta = chWidth - oldWidth; --delta >= 0;) {
           bufferRow.setCellFromCodepoint(this._activeBuffer.x++, 0, 0, curAttr);
         }
         continue;
@@ -1607,7 +1607,7 @@ export class InputHandler extends Disposable implements IInputHandler {
     const text = bufferRow.getString(x);
     const data = new Uint32Array(text.length * length);
     let idata = 0;
-    for (let itext = 0; itext < text.length; ) {
+    for (let itext = 0; itext < text.length;) {
       const ch = text.codePointAt(itext) || 0;
       data[idata++] = ch;
       itext += ch > 0xffff ? 2 : 1;

@@ -4,7 +4,7 @@
  */
 
 import type { Terminal, ITerminalAddon } from '@jsnix/xterm';
-import type { FitAddon as IFitApi } from '@xterm/addon-fit';
+import type { FitAddon as IFitApi } from '@jsnix/addon-fit';
 import { IRenderDimensions } from 'browser/renderer/shared/Types';
 import { ViewportConstants } from 'browser/shared/Constants';
 

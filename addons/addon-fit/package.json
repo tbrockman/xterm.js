@@ -1,6 +1,6 @@
 {
-  "name": "@xterm/addon-fit",
-  "version": "0.10.0",
+  "name": "@jsnix/addon-fit",
+  "version": "0.10.1",
   "author": {
     "name": "The xterm.js authors",
     "url": "https://xtermjs.org/"

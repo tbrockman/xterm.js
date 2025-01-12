@@ -134,7 +134,7 @@ if (config.addon) {
       "@jsnix/xterm": ".",
       "@xterm/addon-attach": "./addons/addon-attach/lib/addon-attach.mjs",
       "@xterm/addon-clipboard": "./addons/addon-clipboard/lib/addon-clipboard.mjs",
-      "@xterm/addon-fit": "./addons/addon-fit/lib/addon-fit.mjs",
+      "@jsnix/addon-fit": "./addons/addon-fit/lib/addon-fit.mjs",
       "@xterm/addon-image": "./addons/addon-image/lib/addon-image.mjs",
       "@xterm/addon-search": "./addons/addon-search/lib/addon-search.mjs",
       "@xterm/addon-serialize": "./addons/addon-serialize/lib/addon-serialize.mjs",

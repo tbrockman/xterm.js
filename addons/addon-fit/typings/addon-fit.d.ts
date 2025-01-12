@@ -5,7 +5,7 @@
 
 import { Terminal, ITerminalAddon } from '@jsnix/xterm';
 
-declare module '@xterm/addon-fit' {
+declare module '@jsnix/addon-fit' {
   /**
    * An xterm.js addon that enables resizing the terminal to the dimensions of
    * its containing element.
