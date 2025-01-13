@@ -39,6 +39,7 @@ import { WriteBuffer } from 'common/input/WriteBuffer';
 import { OscLinkService } from 'common/services/OscLinkService';
 import { Emitter, Event } from 'vs/base/common/event';
 import { Disposable, MutableDisposable, toDisposable } from 'vs/base/common/lifecycle';
+import { DEFAULT_ATTR_DATA } from 'common/buffer/BufferLine';
 
 // Only trigger this warning a single time per session
 let hasWriteSyncWarnHappened = false;
@@ -183,7 +184,8 @@ export abstract class CoreTerminal extends Disposable implements ICoreTerminal {
    * @param eraseAttr The attribute data to use the for blank line.
    * @param isWrapped Whether the new line is wrapped from the previous line.
    */
-  public scroll(eraseAttr: IAttributeData, isWrapped: boolean = false): void {
+  public scroll(eraseAttr?: IAttributeData, isWrapped: boolean = false): void {
+    eraseAttr = eraseAttr || DEFAULT_ATTR_DATA.clone();
     this._bufferService.scroll(eraseAttr, isWrapped);
   }
 
