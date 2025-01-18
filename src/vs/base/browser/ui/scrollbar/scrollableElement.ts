@@ -172,6 +172,7 @@ export class MouseWheelClassifier {
 
 export abstract class AbstractScrollableElement extends Widget {
 
+	private readonly _document: Document;
 	private readonly _options: ScrollableElementResolvedOptions;
 	protected readonly _scrollable: Scrollable;
 	private readonly _verticalScrollbar: VerticalScrollbar;
@@ -206,6 +207,7 @@ export abstract class AbstractScrollableElement extends Widget {
 
 	protected constructor(element: HTMLElement, options: ScrollableElementCreationOptions, scrollable: Scrollable) {
 		super();
+		this._document = element.ownerDocument;
 		// HACK: xterm.js currnetly requires overflow to allow decorations to escape the container
 		// element.style.overflow = 'hidden';
 		this._options = resolveOptions(options);
@@ -222,10 +224,10 @@ export abstract class AbstractScrollableElement extends Widget {
 			onDragStart: () => this._onDragStart(),
 			onDragEnd: () => this._onDragEnd(),
 		};
-		this._verticalScrollbar = this._register(new VerticalScrollbar(this._scrollable, this._options, scrollbarHost));
-		this._horizontalScrollbar = this._register(new HorizontalScrollbar(this._scrollable, this._options, scrollbarHost));
+		this._verticalScrollbar = this._register(new VerticalScrollbar(this._scrollable, this._options, scrollbarHost, this._document));
+		this._horizontalScrollbar = this._register(new HorizontalScrollbar(this._scrollable, this._options, scrollbarHost, this._document));
 
-		this._domNode = document.createElement('div');
+		this._domNode = this._document.createElement('div');
 		this._domNode.className = 'xterm-scrollable-element ' + this._options.className;
 		this._domNode.setAttribute('role', 'presentation');
 		this._domNode.style.position = 'relative';
@@ -236,15 +238,15 @@ export abstract class AbstractScrollableElement extends Widget {
 		this._domNode.appendChild(this._verticalScrollbar.domNode.domNode);
 
 		if (this._options.useShadows) {
-			this._leftShadowDomNode = createFastDomNode(document.createElement('div'));
+			this._leftShadowDomNode = createFastDomNode(this._document.createElement('div'));
 			this._leftShadowDomNode.setClassName('shadow');
 			this._domNode.appendChild(this._leftShadowDomNode.domNode);
 
-			this._topShadowDomNode = createFastDomNode(document.createElement('div'));
+			this._topShadowDomNode = createFastDomNode(this._document.createElement('div'));
 			this._topShadowDomNode.setClassName('shadow');
 			this._domNode.appendChild(this._topShadowDomNode.domNode);
 
-			this._topLeftShadowDomNode = createFastDomNode(document.createElement('div'));
+			this._topLeftShadowDomNode = createFastDomNode(this._document.createElement('div'));
 			this._topLeftShadowDomNode.setClassName('shadow');
 			this._domNode.appendChild(this._topLeftShadowDomNode.domNode);
 		} else {

@@ -9,6 +9,7 @@ import { BufferSet } from 'common/buffer/BufferSet';
 import { IBuffer, IBufferSet } from 'common/buffer/Types';
 import { IBufferService, IOptionsService } from 'common/services/Services';
 import { Emitter } from 'vs/base/common/event';
+import { DEFAULT_ATTR_DATA } from 'common/buffer/BufferLine';
 
 export const MINIMUM_COLS = 2; // Less than 2 can mess with wide chars
 export const MINIMUM_ROWS = 1;
@@ -58,8 +59,9 @@ export class BufferService extends Disposable implements IBufferService {
    * @param eraseAttr The attribute data to use the for blank line.
    * @param isWrapped Whether the new line is wrapped from the previous line.
    */
-  public scroll(eraseAttr: IAttributeData, isWrapped: boolean = false): void {
+  public scroll(eraseAttr?: IAttributeData, isWrapped: boolean = false): void {
     const buffer = this.buffer;
+    eraseAttr = eraseAttr || DEFAULT_ATTR_DATA.clone();
 
     let newLine: IBufferLine | undefined;
     newLine = this._cachedBlankLine;

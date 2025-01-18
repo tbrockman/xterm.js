@@ -13,7 +13,7 @@ import { INewScrollPosition, Scrollable, ScrollbarVisibility, ScrollEvent } from
 
 export class HorizontalScrollbar extends AbstractScrollbar {
 
-	constructor(scrollable: Scrollable, options: ScrollableElementResolvedOptions, host: ScrollbarHost) {
+	constructor(scrollable: Scrollable, options: ScrollableElementResolvedOptions, host: ScrollbarHost, document: Document) {
 		const scrollDimensions = scrollable.getScrollDimensions();
 		const scrollPosition = scrollable.getCurrentScrollPosition();
 		super({
@@ -31,10 +31,10 @@ export class HorizontalScrollbar extends AbstractScrollbar {
 			extraScrollbarClassName: 'horizontal',
 			scrollable: scrollable,
 			scrollByPage: options.scrollByPage
-		});
+		}, document);
 
 		if (options.horizontalHasArrows) {
-      throw new Error('horizontalHasArrows is not supported in xterm.js');
+			throw new Error('horizontalHasArrows is not supported in xterm.js');
 			// const arrowDelta = (options.arrowSize - ARROW_IMG_SIZE) / 2;
 			// const scrollbarDelta = (options.horizontalScrollbarSize - ARROW_IMG_SIZE) / 2;
 

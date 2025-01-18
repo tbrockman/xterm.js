@@ -43,6 +43,7 @@ export interface AbstractScrollbarOptions {
 
 export abstract class AbstractScrollbar extends Widget {
 
+	private readonly _document: Document;
 	protected _host: ScrollbarHost;
 	protected _scrollable: Scrollable;
 	protected _scrollByPage: boolean;
@@ -56,8 +57,9 @@ export abstract class AbstractScrollbar extends Widget {
 
 	protected _shouldRender: boolean;
 
-	constructor(opts: AbstractScrollbarOptions) {
+	constructor(opts: AbstractScrollbarOptions, document: Document) {
 		super();
+		this._document = document;
 		this._lazyRender = opts.lazyRender;
 		this._host = opts.host;
 		this._scrollable = opts.scrollable;
@@ -67,7 +69,7 @@ export abstract class AbstractScrollbar extends Widget {
 		this._visibilityController.setIsNeeded(this._scrollbarState.isNeeded());
 		this._pointerMoveMonitor = this._register(new GlobalPointerMoveMonitor());
 		this._shouldRender = true;
-		this.domNode = createFastDomNode(document.createElement('div'));
+		this.domNode = createFastDomNode(this._document.createElement('div'));
 		this.domNode.setAttribute('role', 'presentation');
 		this.domNode.setAttribute('aria-hidden', 'true');
 
@@ -92,7 +94,7 @@ export abstract class AbstractScrollbar extends Widget {
 	 * Creates the slider dom node, adds it to the container & hooks up the events
 	 */
 	protected _createSlider(top: number, left: number, width: number | undefined, height: number | undefined): void {
-		this.slider = createFastDomNode(document.createElement('div'));
+		this.slider = createFastDomNode(this._document.createElement('div'));
 		this.slider.setClassName('slider');
 		this.slider.setPosition('absolute');
 		this.slider.setTop(top);

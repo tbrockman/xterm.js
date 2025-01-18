@@ -57,7 +57,7 @@ import { AccessibilityManager } from './AccessibilityManager';
 import { Linkifier } from './Linkifier';
 import { Emitter, Event } from 'vs/base/common/event';
 import { addDisposableListener } from 'vs/base/browser/dom';
-import { MutableDisposable, toDisposable } from 'vs/base/common/lifecycle';
+import { MutableDisposable, toDisposable, Disposable } from 'vs/base/common/lifecycle';
 
 export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
   public textarea: HTMLTextAreaElement | undefined;
@@ -458,7 +458,7 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
       this.textarea,
       parent.ownerDocument.defaultView ?? window,
       // Force unsafe null in node.js environment for tests
-      this._document ?? (typeof window !== 'undefined') ? window.document : null as any
+      (this._document ?? ((typeof window !== 'undefined') ? window.document : null as any))
     ));
     this._instantiationService.setService(ICoreBrowserService, this._coreBrowserService);
 

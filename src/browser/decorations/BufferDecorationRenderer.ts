@@ -24,7 +24,7 @@ export class BufferDecorationRenderer extends Disposable {
   ) {
     super();
 
-    this._container = document.createElement('div');
+    this._container = _screenElement.ownerDocument.createElement('div');
     this._container.classList.add('xterm-decoration-container');
     this._screenElement.appendChild(this._container);
 

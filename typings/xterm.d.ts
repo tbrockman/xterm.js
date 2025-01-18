@@ -1956,4 +1956,136 @@ declare module '@jsnix/xterm' {
      */
     readonly wraparoundMode: boolean;
   }
+
+  /**
+   * Abstract base class for a {@link IDisposable disposable} object.
+   *
+   * Subclasses can {@linkcode _register} disposables that will be automatically cleaned up when this object is disposed of.
+   */
+  export abstract class Disposable implements IDisposable {
+
+    /**
+     * A disposable that does nothing when it is disposed of.
+     *
+     * TODO: This should not be a static property.
+     */
+    static readonly None: Readonly<IDisposable>
+
+    public dispose(): void
+
+    /**
+     * Adds `o` to the collection of disposables managed by this object.
+     */
+    protected _register<T extends IDisposable>(o: T): T
+  }
+
+  export interface EventDeliveryQueue {
+    _isEventDeliveryQueue: true;
+  }
+
+  export interface EmitterOptions {
+    /**
+     * Optional function that's called *before* the very first listener is added
+     */
+    onWillAddFirstListener?: Function;
+    /**
+     * Optional function that's called *after* the very first listener is added
+     */
+    onDidAddFirstListener?: Function;
+    /**
+     * Optional function that's called after a listener is added
+     */
+    onDidAddListener?: Function;
+    /**
+     * Optional function that's called *after* remove the very last listener
+     */
+    onDidRemoveLastListener?: Function;
+    /**
+     * Optional function that's called *before* a listener is removed
+     */
+    onWillRemoveListener?: Function;
+    /**
+     * Optional function that's called when a listener throws an error. Defaults to
+     * {@link onUnexpectedError}
+     */
+    onListenerError?: (e: any) => void;
+    /**
+     * Number of listeners that are allowed before assuming a leak. Default to
+     * a globally configured value
+     *
+     * @see setGlobalLeakWarningThreshold
+     */
+    leakWarningThreshold?: number;
+    /**
+     * Pass in a delivery queue, which is useful for ensuring
+     * in order event delivery across multiple emitters.
+     */
+    deliveryQueue?: EventDeliveryQueue;
+
+    /** ONLY enable this during development */
+    _profName?: string;
+  }
+
+  export class DisposableStore implements IDisposable {
+
+    static DISABLE_DISPOSED_WARNING: boolean;
+
+    /**
+     * Dispose of all registered disposables and mark this object as disposed.
+     *
+     * Any future disposables added to this object will be disposed of on `add`.
+     */
+    public dispose(): void
+
+    /**
+     * @return `true` if this object has been disposed of.
+     */
+    public get isDisposed(): boolean
+
+    /**
+     * Dispose of all registered disposables but do not mark this object as disposed.
+     */
+    public clear(): void
+
+    /**
+     * Add a new {@link IDisposable disposable} to the collection.
+     */
+    public add<T extends IDisposable>(o: T): T
+
+    /**
+     * Deletes a disposable from store and disposes of it. This will not throw or warn and proceed to dispose the
+     * disposable even when the disposable is not part in the store.
+     */
+    public delete<T extends IDisposable>(o: T): void
+
+    /**
+     * Deletes the value from the store, but does not dispose it.
+     */
+    public deleteAndLeak<T extends IDisposable>(o: T): void
+  }
+
+  /**
+   * An event with zero or one parameters that can be subscribed to. The event is a function itself.
+   */
+  export interface Event<T> {
+    (listener: (e: T) => any, thisArgs?: any, disposables?: IDisposable[] | DisposableStore): IDisposable;
+  }
+
+  export class Emitter<T> {
+    constructor(options?: EmitterOptions)
+
+    dispose(): void
+
+    /**
+     * For the public to allow to subscribe
+     * to events from this Emitter
+     */
+    get event(): Event<T>
+    /**
+     * To be kept private to fire an event to
+     * subscribers
+     */
+    fire(event: T): void
+    hasListeners(): boolean
+  }
 }
