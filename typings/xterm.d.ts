@@ -1309,6 +1309,13 @@ declare module '@jsnix/xterm' {
      * @param addon The addon to load.
      */
     loadAddon(addon: ITerminalAddon): void;
+
+    /**
+     * EXPERIMENTAL: Attach a custom element to a marker (and have the terminal manage buffers space for it)
+     * @param element 
+     * @param marker 
+     */
+    attachElementToMarker(element: HTMLElement, marker: IMarker): IDecoration | undefined;
   }
 
   /**

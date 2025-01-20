@@ -26,7 +26,7 @@ import { InstantiationService } from 'common/services/InstantiationService';
 import { LogService } from 'common/services/LogService';
 import { BufferService, MINIMUM_COLS, MINIMUM_ROWS } from 'common/services/BufferService';
 import { OptionsService } from 'common/services/OptionsService';
-import { IDisposable, IAttributeData, ICoreTerminal, IScrollEvent } from 'common/Types';
+import { IDisposable, IAttributeData, ICoreTerminal, IScrollEvent, IMarker } from 'common/Types';
 import { CoreService } from 'common/services/CoreService';
 import { CoreMouseService } from 'common/services/CoreMouseService';
 import { UnicodeService } from 'common/services/UnicodeService';

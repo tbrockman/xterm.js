@@ -859,7 +859,9 @@ export class InputHandler extends Disposable implements IInputHandler {
     this._activeBuffer.x = Math.min(maxCol, Math.max(0, this._activeBuffer.x));
     this._activeBuffer.y = this._coreService.decPrivateModes.origin
       ? Math.min(this._activeBuffer.scrollBottom, Math.max(this._activeBuffer.scrollTop, this._activeBuffer.y))
-      : Math.min(this._bufferService.rows - 1, Math.max(0, this._activeBuffer.y));
+      : Math.min(this._activeBuffer.lines.length - 1, Math.max(0, this._activeBuffer.y));
+    this._logService.debug('restricted cursor', { x: this._activeBuffer.x, y: this._activeBuffer.y, scrollTop: this._activeBuffer.scrollTop, scrollBottom: this._activeBuffer.scrollBottom, rows: this._bufferService.rows - 1, origin: this._coreService.decPrivateModes.origin })
+
     this._dirtyRowTracker.markDirty(this._activeBuffer.y);
   }
 
@@ -868,6 +870,7 @@ export class InputHandler extends Disposable implements IInputHandler {
    */
   private _setCursor(x: number, y: number): void {
     this._dirtyRowTracker.markDirty(this._activeBuffer.y);
+    this._logService.debug('setting cursor', { x, y, origin: this._coreService.decPrivateModes.origin })
     if (this._coreService.decPrivateModes.origin) {
       this._activeBuffer.x = x;
       this._activeBuffer.y = this._activeBuffer.scrollTop + y;
@@ -875,6 +878,7 @@ export class InputHandler extends Disposable implements IInputHandler {
       this._activeBuffer.x = x;
       this._activeBuffer.y = y;
     }
+    this._logService.debug('after assigning cursor', { x: this._activeBuffer.x, y: this._activeBuffer.y, origin: this._coreService.decPrivateModes.origin })
     this._restrictCursor();
     this._dirtyRowTracker.markDirty(this._activeBuffer.y);
   }

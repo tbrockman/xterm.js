@@ -54,6 +54,46 @@ export class BufferService extends Disposable implements IBufferService {
     this.isUserScrolling = false;
   }
 
+  public deleteLines(index: number, amount: number) {
+    for (let i = 0; i < amount; i++) {
+      // TODO: allows deleting past the end of the buffer
+      this.buffer.lines.splice(index, 1);
+
+      if (this.buffer.y > index) {
+        this.buffer.y -= 1;
+      }
+    }
+  }
+
+  public insertLines(index: number, amount: number) {
+    const buffer = this.buffer;
+    let newLine: IBufferLine | undefined;
+
+    for (let i = 0; i < amount; i++) {
+      newLine = this._cachedBlankLine;
+
+      if (!newLine || newLine.length !== this.cols) {
+        newLine = buffer.getBlankLine(DEFAULT_ATTR_DATA.clone(), false);
+        this._cachedBlankLine = newLine;
+      }
+
+      if (buffer.lines.isFull) {
+        buffer.lines.maxLength++;
+      }
+      buffer.lines.splice(index, 0, newLine.clone());
+
+      if (this.buffer.y > index) {
+        this.buffer.y += 1;
+      }
+    }
+  }
+
+  public extend(amount: number) {
+    for (let i = 0; i < amount; i++) {
+      this.scroll();
+    }
+  }
+
   /**
    * Scroll the terminal down 1 row, creating a blank line.
    * @param eraseAttr The attribute data to use the for blank line.

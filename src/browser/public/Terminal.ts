@@ -272,6 +272,10 @@ export class Terminal extends Disposable implements ITerminalApi {
       }
     }
   }
+
+  public attachElementToMarker(element: HTMLElement, marker: IMarker) {
+    return this._core.attachElementToMarker(element, marker);
+  }
 }
 
 export { Emitter, Disposable, DisposableStore }

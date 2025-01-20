@@ -51,6 +51,15 @@ export class MockBufferService implements IBufferService {
     this.rows = rows;
   }
   public reset(): void { }
+  public insertLines(index: number, count: number): void {
+    throw new Error('Method not implemented.');
+  }
+  public deleteLines(index: number, amount: number): void {
+    throw new Error('Method not implemented.');
+  }
+  public extend(amount: number): void {
+    throw new Error('Method not implemented.');
+  }
 }
 
 export class MockCoreMouseService implements ICoreMouseService {

@@ -57,7 +57,9 @@ import { AccessibilityManager } from './AccessibilityManager';
 import { Linkifier } from './Linkifier';
 import { Emitter, Event } from 'vs/base/common/event';
 import { addDisposableListener } from 'vs/base/browser/dom';
-import { MutableDisposable, toDisposable, Disposable } from 'vs/base/common/lifecycle';
+import { MutableDisposable, toDisposable } from 'vs/base/common/lifecycle';
+import { Params } from 'common/parser/Params';
+import { Mutex } from 'async-mutex';
 
 export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
   public textarea: HTMLTextAreaElement | undefined;
@@ -121,6 +123,17 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
 
   private _compositionHelper: ICompositionHelper | undefined;
   private _accessibilityManager: MutableDisposable<AccessibilityManager> = this._register(new MutableDisposable());
+
+  private writeMutex = new Mutex()
+
+  override write(data: string | Uint8Array, callback?: () => void): void {
+    if (this.writeMutex.isLocked()) {
+      this._logService.info('waiting for lock!')
+      this.writeMutex.runExclusive(() => super.write(data, callback));
+    } else {
+      super.write(data, callback)
+    }
+  }
 
   private readonly _onCursorMove = this._register(new Emitter<void>());
   public readonly onCursorMove = this._onCursorMove.event;
@@ -1302,6 +1315,167 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
     ev.preventDefault();
     ev.stopPropagation();
     return false;
+  }
+
+  /**
+   * Returns the number of continguous newlines at the end of our buffer
+   */
+  get emptyBufferLines() {
+    let lines = 0;
+    const buffer = this.buffer;
+
+    for (let i = buffer.lines.length - 1; i >= 0; i--) {
+      if (buffer.lines.get(i)?.translateToString(true) === '') {
+        lines++;
+      }
+      else {
+        break;
+      }
+    }
+    return lines;
+  }
+
+  get screen() {
+    return this.element?.getElementsByClassName('xterm-screen')[0] as HTMLElement | undefined;
+  }
+
+  get cellDimensions() {
+    if (!this.screen) {
+      return {
+        width: 0,
+        height: 0,
+      };
+    }
+
+    const { width, height } = this.screen.getBoundingClientRect();
+    return {
+      width: width / this.cols,
+      height: height / this.rows,
+    };
+  }
+
+  calculateDecorationSize(decorationWidthPx: number, decorationHeightPx: number) {
+    if (!this.element || !this.screen) {
+      return {
+        width: 0,
+        height: 0,
+      };
+    }
+    let { width, height } = this.cellDimensions;
+
+    // Calculate the decoration size in cells
+    width = Math.ceil(decorationWidthPx / width);
+    height = Math.ceil(decorationHeightPx / height);
+
+    return {
+      width,
+      height,
+    };
+  }
+
+  public attachElementToMarker(element: HTMLElement, marker: IMarker): IDecoration | undefined {
+    const decoration = this.registerDecoration({
+      marker,
+      layer: 'top',
+    });
+
+    let height: number | null = null;
+
+    decoration?.onRender(async (e: HTMLElement) => {
+
+      // store current origin mode
+      const stored = this.coreService.decPrivateModes.origin
+      await this.writeMutex.runExclusive(async () => {
+        try {
+          const { width } = this.screen?.getBoundingClientRect() || { width: 0 };
+          e.style.width = 'fit-content'
+          e.style.height = 'fit-content'
+          element.style.width = `${width}px`;
+
+          if (!Array.from(e.children).includes(element)) {
+            e.appendChild(element);
+          }
+
+          const rect = element.getBoundingClientRect();
+          const { height: newHeight } = this.calculateDecorationSize(rect.width, rect.height);
+
+          if (newHeight !== height && marker.line > -1) {
+            const deltaRows = height !== null ? newHeight - height : (Math.max(newHeight - 1, 0));
+
+            if (!deltaRows) {
+              return;
+            };
+
+            // set origin mode to false so we don't have to deal with relative cursor positions
+            this.coreService.decPrivateModes.origin = false;
+            const realY = this.buffer.y + this.buffer.ydisp;
+            const appendEmptyLines = deltaRows >= this.emptyBufferLines ? (deltaRows + 2) - this.emptyBufferLines : 0;
+
+            this._logService.info('rendering decoration', { height, newHeight, appendEmptyLines, deltaRows, marker });
+
+            // if the number of empty rows at the end of our buffer isn't enough to handle an insertion,
+            // resize the terminal rows
+            if (appendEmptyLines) {
+              // move to the bottom of the buffer
+              // const params = new Params();
+              // params.addParam(this.buffer.lines.length)
+              // params.addParam(1);
+              // this._inputHandler.cursorPosition(params)
+
+              this._bufferService.extend(appendEmptyLines);
+            }
+            this._logService.info('added newlines', { y: this.buffer.y, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase, realY });
+
+            // this.scrollToLine(marker.line + 1)
+
+            // set our cursor to the line after our marker
+            // const params = new Params();
+            // params.addParam(marker.line + 2)
+            // params.addParam(1);
+            // this._inputHandler.cursorPosition(params)
+
+            // this._logService.info('moved cursor to below marker', { marker: marker.line, id: marker.id, y: this.buffer.y, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase, realY, });
+
+            // delete/insert filler lines if needed
+            if (deltaRows > 0) {
+              this._bufferService.insertLines(marker.line + 1, deltaRows)
+            }
+            else if (deltaRows < 0) {
+              this._bufferService.deleteLines(marker.line + 1, -deltaRows)
+            }
+            this._logService.info('inserted/deleted newlines', { y: this.buffer.y, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase });
+
+            // move cursor back to original row and column, considering these cases:
+            // 1. our cursor was above or equal marker.line -> realY doesn't change
+            // 2. our cursor was below marker.line -> realY is either bigger or smaller by deltaRows
+            // const newY = realY < marker.line ? realY : realY + deltaRows;
+
+            // // test
+            // const region = new Params()
+            // region.addParam(Math.max(newY + 1 - this.rows, 0))
+            // this._logService.info('setting scroll region', { region, newY: newY + 1, newX: cursorX + 1, y: this.buffer.y, x: this.buffer.x, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase });
+
+            // this._inputHandler.setScrollRegion(region)
+
+            // // move to our original cursor
+            // const resetCursor = new Params()
+            // resetCursor.addParam(newY + 1)
+            // resetCursor.addParam(cursorX + 1)
+
+            // this._inputHandler.cursorPosition(resetCursor)
+            // this._logService.info('reset cursor position', { newY: newY + 1, newX: cursorX + 1, y: this.buffer.y, x: this.buffer.x, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase });
+            // // retain our current number of rows
+            height = newHeight;
+            this.refresh(0, this.rows)
+            await new Promise((resolve) => window.requestAnimationFrame(resolve))
+          }
+        }
+        finally {
+          this.coreService.decPrivateModes.origin = stored;
+        }
+      })
+    });
+    return decoration;
   }
 }
 

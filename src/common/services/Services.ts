@@ -24,6 +24,9 @@ export interface IBufferService {
   scrollLines(disp: number, suppressScrollEvent?: boolean): void;
   resize(cols: number, rows: number): void;
   reset(): void;
+  extend(amount: number): void;
+  insertLines(index: number, count: number): void;
+  deleteLines(index: number, amount: number): void;
 }
 
 export const ICoreMouseService = createDecorator<ICoreMouseService>('CoreMouseService');

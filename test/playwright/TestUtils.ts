@@ -128,7 +128,8 @@ type TerminalProxyCustomOverrides = 'buffer' | (
   'registerLinkProvider' |
   'registerCharacterJoiner' |
   'deregisterCharacterJoiner' |
-  'loadAddon'
+  'loadAddon' |
+  'attachElementToMarker'
 );
 export class TerminalProxy implements ITerminalProxyCustomMethods, PlaywrightApiProxy<Terminal, TerminalProxyAsyncPropOverrides, TerminalProxyAsyncMethodOverrides, TerminalProxyCustomOverrides> {
   constructor(private readonly _page: Page) {
