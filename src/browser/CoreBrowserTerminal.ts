@@ -1335,10 +1335,16 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
     return lines;
   }
 
+  /**
+   * Returns the screen element, which contains the rendered terminal content.
+   */
   get screen() {
     return this.element?.getElementsByClassName('xterm-screen')[0] as HTMLElement | undefined;
   }
 
+  /**
+   * Returns the width and height (in pixels) of a single cell (1 row x 1 col) in the terminal
+   */
   get cellDimensions() {
     if (!this.screen) {
       return {
@@ -1354,7 +1360,13 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
     };
   }
 
-  calculateDecorationSize(decorationWidthPx: number, decorationHeightPx: number) {
+  /**
+   * Takes in a width and height in pixels and returns its measurements in cells (rounded up)
+   * @param widthPx 
+   * @param heightPx 
+   * @returns 
+   */
+  calculateCells(widthPx: number, heightPx: number) {
     if (!this.element || !this.screen) {
       return {
         width: 0,
@@ -1364,8 +1376,8 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
     let { width, height } = this.cellDimensions;
 
     // Calculate the decoration size in cells
-    width = Math.ceil(decorationWidthPx / width);
-    height = Math.ceil(decorationHeightPx / height);
+    width = Math.ceil(widthPx / width);
+    height = Math.ceil(heightPx / height);
 
     return {
       width,
@@ -1373,6 +1385,14 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
     };
   }
 
+  /**
+   * Takes in an element and a marker and attaches the element to the marker.
+   * The terminal will automatically manage the filler required to keep the element in place.
+   * 
+   * @param element 
+   * @param marker 
+   * @returns A Promise that resolves to an IDecoration created for the element the first time it has been rendered.
+   */
   public attachElementToMarker(element: HTMLElement, marker: IMarker): Promise<IDecoration | undefined> {
     const decoration = this.registerDecoration({
       marker,
@@ -1395,7 +1415,7 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
         }
 
         const rect = element.getBoundingClientRect();
-        const { height: newHeight } = this.calculateDecorationSize(rect.width, rect.height);
+        const { height: newHeight } = this.calculateCells(rect.width, rect.height);
 
         if (newHeight !== height && marker.line > -1) {
           // on our first render, our delta includes a line for the marker
@@ -1425,11 +1445,11 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
           }
           // if we moved our marker, move it back
           marker.line += offset
-          // TODO: adjust scrolling after insertion/deletion (ybase/ydisp/scrollTop/scrollBottom)
           height = newHeight;
+          this._logService.info('inserted/deleted newlines', { y: this.buffer.y, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase, deltaRows });
+
           this.refresh(0, this.rows)
           await new Promise((resolve) => window.requestAnimationFrame(resolve))
-          this._logService.info('inserted/deleted newlines', { y: this.buffer.y, ydisp: this.buffer.ydisp, ybase: this.buffer.ybase, deltaRows });
 
           if (!resolved) {
             resolved = true;
