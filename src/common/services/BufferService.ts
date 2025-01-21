@@ -55,43 +55,78 @@ export class BufferService extends Disposable implements IBufferService {
   }
 
   public deleteLines(index: number, amount: number) {
-    for (let i = 0; i < amount; i++) {
-      // TODO: allows deleting past the end of the buffer
-      this.buffer.lines.splice(index, 1);
+    const buffer = this.buffer;
+    // delete at most up to the end of the buffer
+    // TODO: decide whether this is the right behavior
+    amount = Math.min(amount, buffer.lines.length - index);
+    buffer.lines.splice(index, amount);
 
-      if (this.buffer.y > index) {
-        this.buffer.y -= 1;
-      }
+    // if our cursor is below the deleted lines, move it up by that amount
+    if (buffer.y + buffer.ybase >= index) {
+      buffer.y = Math.max(0, buffer.y - amount);
     }
+
+    // if our current viewport is below the deleted lines, move it up by that amount
+    const bottomRow = buffer.ydisp + buffer.scrollBottom;
+    if (bottomRow >= index) {
+      const delta = Math.max(buffer.ydisp - amount, 0) - buffer.ydisp;
+      buffer.ydisp += delta
+      // and, correspondingly, adjust our cursor
+      buffer.y -= delta;
+    }
+    buffer.ybase = Math.max(0, buffer.ybase - amount);
   }
 
   public insertLines(index: number, amount: number) {
     const buffer = this.buffer;
     let newLine: IBufferLine | undefined;
 
-    for (let i = 0; i < amount; i++) {
-      newLine = this._cachedBlankLine;
+    newLine = this._cachedBlankLine;
 
-      if (!newLine || newLine.length !== this.cols) {
-        newLine = buffer.getBlankLine(DEFAULT_ATTR_DATA.clone(), false);
-        this._cachedBlankLine = newLine;
-      }
+    if (!newLine || newLine.length !== this.cols) {
+      newLine = buffer.getBlankLine(DEFAULT_ATTR_DATA.clone(), false);
+      this._cachedBlankLine = newLine;
+    }
 
-      if (buffer.lines.isFull) {
-        buffer.lines.maxLength++;
-      }
-      buffer.lines.splice(index, 0, newLine.clone());
+    const emptyLines = [...Array(amount)].map(() => newLine.clone())
 
-      if (this.buffer.y > index) {
-        this.buffer.y += 1;
+    buffer.lines.maxLength = Math.max(buffer.lines.maxLength, buffer.lines.length + amount)
+    buffer.lines.splice(index, 0, ...emptyLines)
+
+    // if our current cursor position is below the inserted lines, move it down by that amount
+    if (buffer.y + buffer.ybase >= index) {
+      buffer.y += amount;
+    }
+    let remaining = amount;
+
+    console.log('before popping off end', { index, remaining, y: buffer.y, ydisp: buffer.ydisp, ybase: buffer.ybase, amount, bufferLength: buffer.lines.length, maxLength: buffer.lines.maxLength, limit: Math.max(buffer.lines.length - (buffer.y + buffer.ybase + 1), 0) })
+
+    // while we haven't reached our cursor or any whitespace at the end of the buffer
+    // pop empty lines off the end of the buffer to accommodate our insertions
+    while (remaining && (buffer.lines.length - 1) > (buffer.y + buffer.ydisp) && (buffer.lines.length - 1) > (index + amount)) {
+      const last = buffer.lines.pop()
+      remaining--;
+
+      if (last && last.getTrimmedLength() === 0) {
+        continue;
+      } else if (last) {
+        buffer.lines.push(last);
+        break;
       }
     }
-  }
 
-  public extend(amount: number) {
-    for (let i = 0; i < amount; i++) {
-      this.scroll();
+    const bottomRow = buffer.ydisp + buffer.scrollBottom;
+    // if our current viewport is below the inserted lines
+    // scroll down by the effective amount (account for existing whitespace, limit by )
+    if (bottomRow >= index) {
+      const delta = Math.min(buffer.ydisp + remaining, buffer.lines.length - this.rows) - buffer.ydisp;
+      console.log('delta viewport', { delta, bottomRow, index, y: buffer.y, ydisp: buffer.ydisp, remaining, linesLength: buffer.lines.length, rows: this.rows })
+      buffer.ydisp += delta
+      // and, correspondingly, adjust our cursor
+      buffer.y -= delta
     }
+    buffer.ybase += remaining;
+    console.log('after inserting', { remaining, y: buffer.y, ydisp: buffer.ydisp, ybase: buffer.ybase, amount, bufferLength: buffer.lines.length, maxLength: buffer.lines.maxLength })
   }
 
   /**

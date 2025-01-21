@@ -57,9 +57,6 @@ export class MockBufferService implements IBufferService {
   public deleteLines(index: number, amount: number): void {
     throw new Error('Method not implemented.');
   }
-  public extend(amount: number): void {
-    throw new Error('Method not implemented.');
-  }
 }
 
 export class MockCoreMouseService implements ICoreMouseService {

@@ -213,7 +213,7 @@ export class MockTerminal implements ITerminal {
   }
   public registerCharacterJoiner(handler: CharacterJoinerHandler): number { return 0; }
   public deregisterCharacterJoiner(joinerId: number): void { }
-  public attachElementToMarker(element: HTMLElement, marker: IMarker): IDecoration | undefined {
+  public attachElementToMarker(element: HTMLElement, marker: IMarker): Promise<IDecoration | undefined> {
     throw new Error('Method not implemented.');
   }
 }

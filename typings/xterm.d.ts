@@ -509,7 +509,7 @@ declare module '@jsnix/xterm' {
      * The actual line index in the buffer at this point in time. This is set to
      * -1 if the marker has been disposed.
      */
-    readonly line: number;
+    line: number;
   }
 
   /**
@@ -1315,7 +1315,7 @@ declare module '@jsnix/xterm' {
      * @param element 
      * @param marker 
      */
-    attachElementToMarker(element: HTMLElement, marker: IMarker): IDecoration | undefined;
+    attachElementToMarker(element: HTMLElement, marker: IMarker): Promise<IDecoration | undefined>;
   }
 
   /**
