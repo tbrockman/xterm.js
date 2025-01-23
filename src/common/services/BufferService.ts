@@ -99,8 +99,6 @@ export class BufferService extends Disposable implements IBufferService {
     }
     let remaining = amount;
 
-    console.log('before popping off end', { index, remaining, y: buffer.y, ydisp: buffer.ydisp, ybase: buffer.ybase, amount, bufferLength: buffer.lines.length, maxLength: buffer.lines.maxLength, limit: Math.max(buffer.lines.length - (buffer.y + buffer.ybase + 1), 0) })
-
     // while we haven't reached our cursor or any whitespace at the end of the buffer
     // pop empty lines off the end of the buffer to accommodate our insertions
     while (remaining && (buffer.lines.length - 1) > (buffer.y + buffer.ydisp) && (buffer.lines.length - 1) > (index + amount)) {
@@ -120,13 +118,11 @@ export class BufferService extends Disposable implements IBufferService {
     // scroll down by the effective amount (account for existing whitespace, limit by )
     if (bottomRow >= index) {
       const delta = Math.min(buffer.ydisp + remaining, buffer.lines.length - this.rows) - buffer.ydisp;
-      console.log('delta viewport', { delta, bottomRow, index, y: buffer.y, ydisp: buffer.ydisp, remaining, linesLength: buffer.lines.length, rows: this.rows })
       buffer.ydisp += delta
       // and, correspondingly, adjust our cursor
       buffer.y -= delta
     }
     buffer.ybase += remaining;
-    console.log('after inserting', { remaining, y: buffer.y, ydisp: buffer.ydisp, ybase: buffer.ybase, amount, bufferLength: buffer.lines.length, maxLength: buffer.lines.maxLength })
   }
 
   /**
