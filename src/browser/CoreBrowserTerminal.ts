@@ -58,8 +58,6 @@ import { Linkifier } from './Linkifier';
 import { Emitter, Event } from 'vs/base/common/event';
 import { addDisposableListener } from 'vs/base/browser/dom';
 import { MutableDisposable, toDisposable } from 'vs/base/common/lifecycle';
-import { Params } from 'common/parser/Params';
-import { Mutex } from 'async-mutex';
 
 export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
   public textarea: HTMLTextAreaElement | undefined;
@@ -123,17 +121,6 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
 
   private _compositionHelper: ICompositionHelper | undefined;
   private _accessibilityManager: MutableDisposable<AccessibilityManager> = this._register(new MutableDisposable());
-
-  private writeMutex = new Mutex()
-
-  override write(data: string | Uint8Array, callback?: () => void): void {
-    if (this.writeMutex.isLocked()) {
-      this._logService.info('waiting for lock!')
-      this.writeMutex.runExclusive(() => super.write(data, callback));
-    } else {
-      super.write(data, callback)
-    }
-  }
 
   private readonly _onCursorMove = this._register(new Emitter<void>());
   public readonly onCursorMove = this._onCursorMove.event;

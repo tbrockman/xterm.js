@@ -2,7 +2,7 @@
   "name": "@jsnix/xterm",
   "description": "Full xterm terminal, in your browser",
   "private": false,
-  "version": "5.5.11",
+  "version": "5.5.12",
   "main": "lib/xterm.js",
   "module": "lib/xterm.mjs",
   "style": "css/xterm.css",
@@ -118,8 +118,5 @@
   },
   "workspaces": [
     "addons/*"
-  ],
-  "dependencies": {
-    "async-mutex": "^0.5.0"
-  }
+  ]
 }
