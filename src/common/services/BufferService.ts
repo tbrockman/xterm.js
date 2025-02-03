@@ -70,9 +70,9 @@ export class BufferService extends Disposable implements IBufferService {
     const bottomRow = buffer.ydisp + buffer.scrollBottom;
     if (bottomRow >= index) {
       const delta = Math.max(buffer.ydisp - amount, 0) - buffer.ydisp;
-      buffer.ydisp += delta
+      buffer.ydisp = Math.max(0, buffer.ydisp + delta);
       // and, correspondingly, adjust our cursor
-      buffer.y -= delta;
+      buffer.y = Math.max(0, buffer.y - delta);
     }
     buffer.ybase = Math.max(0, buffer.ybase - amount);
   }
@@ -118,9 +118,9 @@ export class BufferService extends Disposable implements IBufferService {
     // scroll down by the effective amount (account for existing whitespace, limit by )
     if (bottomRow >= index) {
       const delta = Math.min(buffer.ydisp + remaining, buffer.lines.length - this.rows) - buffer.ydisp;
-      buffer.ydisp += delta
+      buffer.ydisp = Math.max(0, buffer.ydisp + delta)
       // and, correspondingly, adjust our cursor
-      buffer.y -= delta
+      buffer.y = Math.max(0, buffer.y - delta)
     }
     buffer.ybase += remaining;
   }
