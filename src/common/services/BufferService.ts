@@ -90,7 +90,7 @@ export class BufferService extends Disposable implements IBufferService {
 
     const emptyLines = [...Array(amount)].map(() => newLine.clone())
 
-    buffer.lines.maxLength = Math.max(buffer.lines.maxLength, buffer.lines.length + amount)
+    buffer.lines.maxLength = Math.max(buffer.lines.maxLength, buffer.lines.length + amount, buffer.y + buffer.ybase + amount)
     buffer.lines.splice(index, 0, ...emptyLines)
 
     // if our current cursor position is below the inserted lines, move it down by that amount
@@ -101,7 +101,7 @@ export class BufferService extends Disposable implements IBufferService {
 
     // while we haven't reached our cursor or any whitespace at the end of the buffer
     // pop empty lines off the end of the buffer to accommodate our insertions
-    while (remaining && (buffer.lines.length - 1) > (buffer.y + buffer.ydisp) && (buffer.lines.length - 1) > (index + amount)) {
+    while (remaining && (buffer.lines.length - 1) > (buffer.y + buffer.ydisp + 1) && (buffer.lines.length - 1) > (index + amount)) {
       const last = buffer.lines.pop()
       remaining--;
 

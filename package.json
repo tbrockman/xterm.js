@@ -2,7 +2,7 @@
   "name": "@jsnix/xterm",
   "description": "Full xterm terminal, in your browser",
   "private": false,
-  "version": "5.5.12",
+  "version": "5.5.13",
   "main": "lib/xterm.js",
   "module": "lib/xterm.mjs",
   "style": "css/xterm.css",
@@ -118,5 +118,6 @@
   },
   "workspaces": [
     "addons/*"
-  ]
+  ],
+  "dependencies": {}
 }

@@ -10,6 +10,7 @@
 /// <reference lib="dom"/>
 
 declare module '@jsnix/xterm' {
+
   /**
    * A string or number representing text font weight.
    */

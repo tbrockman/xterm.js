@@ -1392,6 +1392,7 @@ export class CoreBrowserTerminal extends CoreTerminal implements ITerminal {
       let resolved = false
 
       decoration?.onRender(async (e: HTMLElement) => {
+
         const { width } = this.screen?.getBoundingClientRect() || { width: 0 };
         e.style.width = 'fit-content'
         e.style.height = 'fit-content'
